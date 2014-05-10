@@ -124,20 +124,21 @@
 		    popupAnchor: [0, -33],
 		}
 		);
+		/*
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
 			var popup = createPopup(poi);
 			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
 	    }
-		
+		*/
 		function createPopup(poi)
 		{
 			var dive = document.createElement('div');
 			dive.className = 'popup';
 			var title = document.createElement('div');
 			title.className = 'title';
-			title.innerHTML = poi.name[lang];
+			title.innerHTML = poi.tags.name;
 
 			var detailButton = document.createElement('button');
 			detailButton.innerHTML = 'More ...';
@@ -160,8 +161,27 @@
 		}
 		function setDetail(poi)
 		{
-			detailcontent.innerHTML = poi.name[lang];
+			detailcontent.innerHTML = poi.tags.name;
 		}
+		
+		function ondata(response)
+		{
+			var elements = response.elements;
+			//alert(elements.length)
+			for (var i=0; i < elements.length; i++)
+			{
+				var poi = elements[i];
+				//alert(poi.type)
+				var popup = createPopup(poi);
+				L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
+			}
+		}
+		
+		var head = document.getElementsByTagName('head')[0];
+		var script1 = document.createElement('script');
+		script1.src = 'http://overpass-api.de/api/interpreter?jsonp=ondata&data=[out:json];node[amenity~%22bar|restaurant|cafe%22]%2846.46,11.28,46.51,11.35%29;out;'
+		head.appendChild(script1);
+		
 	</script>
 </body>
 </html>
