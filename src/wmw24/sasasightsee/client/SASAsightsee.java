@@ -78,13 +78,15 @@ public class SASAsightsee implements EntryPoint
 						.parse(response.getText());
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
 
+				ArrayList<Poi> poilist = new ArrayList<Poi>();
+
 				Element today = (Element) xmldoc.getElementsByTagName("today")
 						.item(0);
 
 				for (int i = 0; i < OSM_URL.length; ++i)
 				{
 					String url = OSM_URL[i];
-					osmRequest(map, url, weatherMap);
+					osmRequest(map, url, weatherMap, poilist);
 				}
 			}
 
@@ -98,7 +100,8 @@ public class SASAsightsee implements EntryPoint
 	}
 
 	private static void osmRequest(final Map map, String query,
-			final java.util.Map<String, Weather> weather)
+			final java.util.Map<String, Weather> weather,
+			final ArrayList<Poi> poilist)
 	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
 				+ query;
@@ -119,8 +122,6 @@ public class SASAsightsee implements EntryPoint
 			@Override
 			public void onSuccess(OSMResponse response)
 			{
-
-				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
 				JsArray<OSMNode> elements = response.getElements();
 				// Window.alert(elements.length() + " Object read from OSM");
