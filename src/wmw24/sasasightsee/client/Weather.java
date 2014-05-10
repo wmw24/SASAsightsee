@@ -3,7 +3,6 @@
  */
 package wmw24.sasasightsee.client;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
