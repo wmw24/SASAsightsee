@@ -78,7 +78,7 @@ public class SASAsightsee implements EntryPoint
 				Window.alert(response.getText());
 				com.google.gwt.xml.client.Document xmldoc = XMLParser
 						.parse(response.getText());
-								
+
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
 
 				Element today = (Element) xmldoc.getElementsByTagName("today")
@@ -132,7 +132,8 @@ public class SASAsightsee implements EntryPoint
 				{
 					OSMNode object = elements.get(i);
 					if (object.getType().equals("node")
-							&& object.getTags() instanceof OSMTags)
+							&& object.getTags() != null
+							&& !object.getTags().getName().equals(""))
 					{
 						Poi poi = new Poi();
 						poi.setLat(object.getLat());
@@ -143,7 +144,10 @@ public class SASAsightsee implements EntryPoint
 					}
 				}
 				++counter;
-				onOSMReady(map, poilist, weather);
+				if (counter == OSM_URL.length)
+				{
+					onOSMReady(map, poilist, weather);
+				}
 
 			}
 
@@ -154,11 +158,6 @@ public class SASAsightsee implements EntryPoint
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist,
 			final java.util.Map<String, Weather> weather)
 	{
-		++counter;
-		if (counter != OSM_URL.length)
-		{
-
-		}
 
 		String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
