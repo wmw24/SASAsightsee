@@ -10,7 +10,7 @@ import bz.davide.dmweb.client.leaflet.Map;
 import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
-import bz.davide.dmweb.shared.view.SpanView;
+import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -106,7 +106,7 @@ public class SASAsightsee implements EntryPoint
       });
    }
 
-   static void onBusStationReady(final Map map, ArrayList<Poi> poilist, ArrayList<BusStation> busStations)
+   static void onBusStationReady(final Map map, ArrayList<Poi> poilist, final ArrayList<BusStation> busStations)
    {
       for (int i = 0; i < poilist.size(); i++)
       {
@@ -132,8 +132,9 @@ public class SASAsightsee implements EntryPoint
             @Override
             public void onEvent()
             {
-               SpanView spanView = new SpanView("" + object.getName());
-               map.openPopup(spanView.getElement(), latLng);
+               Popup popup = new Popup(object, busStations);
+               map.openPopup(popup.getElement(), latLng);
+               AbstractHtmlElementView.notifyAttachRecursive(popup);
             }
          });
 
