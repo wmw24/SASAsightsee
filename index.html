@@ -48,17 +48,18 @@
  			name: { "de": "Obstmarkt", "it": "Piazza Erbe", "en": "Fruit market" },
 			lat: 46.5833,
 			lon: 11.2221,
+			popup: {}
 		}
 		];
 		var myIcon = L.icon(
 		{
-		    iconUrl: './images/glyphicons_242_google_maps.png'
+		    iconUrl: ''
 		}
 		);
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
-			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(poi.popup[lang]);
+			L.marker([poi.lat,poi.lon] /*, {icon: myIcon} */).addTo(map).bindPopup(poi.popup[lang]);
 	    }
 	</script>
 </body>
