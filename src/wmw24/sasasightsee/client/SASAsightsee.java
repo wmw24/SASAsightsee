@@ -1,7 +1,9 @@
 package wmw24.sasasightsee.client;
 
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
+
 import java.util.ArrayList;
+
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -11,6 +13,7 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -26,15 +29,16 @@ public class SASAsightsee implements EntryPoint
 	public static final String[] OSM_URL = {
 			"(node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];way[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];>);out;",
 			"(node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];>);out;",
-			"(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18);>)[name];out;",
-			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35);>)[name];out;" };
+			"(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];>);out;",
+			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];>);out;" };
 
 	public static int counter = 0;
 
 	@Override
 	public void onModuleLoad()
 	{
-	   SASAbusDBClientImpl.singleton = new SASAbusDBClientImpl("http://html5.sasabus.org/backend");
+		SASAbusDBClientImpl.singleton = new SASAbusDBClientImpl(
+				"http://html5.sasabus.org/backend");
 
 		final Map map = new Map((com.google.gwt.user.client.Element) Document
 				.get().getElementById("map"));
