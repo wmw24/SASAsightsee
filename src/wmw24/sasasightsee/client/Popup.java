@@ -11,6 +11,7 @@ import bz.davide.dmweb.shared.view.ButtonView;
 import bz.davide.dmweb.shared.view.DMClickEvent;
 import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
+import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.geolocation.client.Geolocation;
@@ -33,6 +34,32 @@ public class Popup extends DivView
       this.weather = weather;
       this.setStyleName("popup");
       this.appendChild(new SpanView(poi.getName()));
+
+      DivView weatherDiv = new DivView("weather");
+
+      DivView today = new DivView("today day");
+
+      ImgView imageView = new ImgView("http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png");
+      SpanView spanView = new SpanView("Nuvoloso, piogge moderate");
+
+      today.appendChild(imageView);
+      today.appendChild(spanView);
+
+      weatherDiv.appendChild(today);
+
+      DivView tomorrow = new DivView("tomorow day");
+
+      imageView = new ImgView("http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png");
+      spanView = new SpanView("Nuvoloso, piogge moderate");
+
+      tomorrow.appendChild(imageView);
+      tomorrow.appendChild(spanView);
+
+      weatherDiv.appendChild(tomorrow);
+
+      this.appendChild(weatherDiv);
+
+
       this.buttonView = new ButtonView("With bus here");
       this.appendChild(this.buttonView);
       this.buttonView.addClickHandler(new DMClickHandler()
@@ -45,6 +72,7 @@ public class Popup extends DivView
          }
 
       });
+
 
       this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 

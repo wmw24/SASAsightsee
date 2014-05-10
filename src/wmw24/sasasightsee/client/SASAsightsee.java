@@ -24,6 +24,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.XMLParser;
 import com.mouchel.gwt.xpath.client.XPath;
@@ -35,11 +36,22 @@ public class SASAsightsee implements EntryPoint
 {
 
 	public static final String[] OSM_URL = {
-			"(node[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.37)[name];way[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.37)[name];>);out;",
-			"(node[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];>);out;",
-			"(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];>);out;",
-			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];>);out;" };
+			"node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.37)[name];out;",
+			"node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];out;",
+			"node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];out;",
+			"node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];out;" };
 
+	/*
+	 * public static final String[] OSM_URL = {
+	 * "(node[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.37)[name];way[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.37)[name];>);out;"
+	 * ,
+	 * "(node[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];>);out;"
+	 * ,
+	 * "(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];>);out;"
+	 * ,
+	 * "(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];>);out;"
+	 * };
+	 */
 	public static int counter = 0;
 		
 	// Bz position (from http://tools.wmflabs.org/geohack/geohack.php) - for weather
@@ -110,13 +122,16 @@ public class SASAsightsee implements EntryPoint
 						.parse(response.getText());
 				
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
+
 				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
 				fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
+
+				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
 				for (int i = 0; i < OSM_URL.length; ++i)
 				{
 					String url = OSM_URL[i];
-					osmRequest(map, url, weatherMap);
+					osmRequest(map, url, weatherMap, poilist);
 				}
 			}
 
@@ -130,7 +145,8 @@ public class SASAsightsee implements EntryPoint
 	}
 
 	private static void osmRequest(final Map map, String query,
-			final java.util.Map<String, Weather> weather)
+			final java.util.Map<String, Weather> weather,
+			final ArrayList<Poi> poilist)
 	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
 				+ query;
@@ -152,22 +168,51 @@ public class SASAsightsee implements EntryPoint
 			public void onSuccess(OSMResponse response)
 			{
 
-				ArrayList<Poi> poilist = new ArrayList<Poi>();
-
 				JsArray<OSMNode> elements = response.getElements();
 				// Window.alert(elements.length() + " Object read from OSM");
 				for (int i = 0; i < elements.length(); i++)
 				{
 					OSMNode object = elements.get(i);
 					if (object.getType().equals("node")
-							&& object.getTags() != null
-							&& !object.getTags().getName().equals(""))
+							&& object.getTags() != null)
 					{
 						Poi poi = new Poi();
 						poi.setLat(object.getLat());
 						poi.setLon(object.getLon());
 						poi.setName(object.getTags().getName());
 						poi.setAmenity(object.getTags().getAmenity());
+
+						if (poi.getName().equals(
+								"Messner Mountain Museum Firmian"))
+						{
+							/*
+							 * poi.setAttr("addrCity", object.getTags()
+							 * .getAddrCity()); poi.setAttr("addrCountry",
+							 * object.getTags() .getAddrCountry());
+							 * poi.setAttr("addrHousename", object.getTags()
+							 * .getAddrHousename());
+							 * poi.setAttr("addrHousename:de", object.getTags()
+							 * .getAddrHouseNameDe());
+							 * poi.setAttr("addrHousename:it", object.getTags()
+							 * .getAddrHouseNameIt());
+							 * poi.setAttr("addrHousenumber", object.getTags()
+							 * .getAddrHousenumber());
+							 * poi.setAttr("addrPostcode", object.getTags()
+							 * .getAddrPostcode()); poi.setAttr("addrStreet",
+							 * object.getTags() .getAddrStreet());
+							 * poi.setAttr("email",
+							 * object.getTags().getEmail()); poi.setAttr("fax",
+							 * object.getTags().getFax());
+							 * poi.setAttr("operator", object.getTags()
+							 * .getOperator()); poi.setAttr("phone",
+							 * object.getTags().getPhone());
+							 * poi.setAttr("webseite", object.getTags()
+							 * .getWebsite()); poi.setAttr("wikipedia",
+							 * object.getTags() .getWikipedia());
+							 * poi.setAttr("wheelchair", object.getTags()
+							 * .getWheelchair());
+							 */
+						}
 						poilist.add(poi);
 					}
 				}
@@ -231,7 +276,16 @@ public class SASAsightsee implements EntryPoint
 			iconOptions.setIconSize(32, 37);
 			iconOptions.setIconAnchor(16, 37);
 			iconOptions.setPopupAnchor(0, -33);
-			iconOptions.setIconUrl("images/historical_museum.png");
+			int randomInt = Random.nextInt(4);
+			if (randomInt == 0)
+			{
+				iconOptions
+						.setIconUrl("images/historical_museum_sponsored.png");
+			}
+			else
+			{
+				iconOptions.setIconUrl("images/historical_museum.png");
+			}
 			Icon icon = new Icon(iconOptions);
 			MarkerOptions markerOptions = new MarkerOptions();
 			markerOptions.setIcon(icon);
