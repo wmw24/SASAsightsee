@@ -27,7 +27,7 @@ public class Popup extends DivView
       this.busStations = busStations;
       this.setStyleName("popup");
       this.appendChild(new SpanView(poi.getName()));
-      this.buttonView = new ButtonView("Route to here");
+      this.buttonView = new ButtonView("With bus here");
       this.appendChild(this.buttonView);
       this.buttonView.addClickHandler(new DMClickHandler()
       {
