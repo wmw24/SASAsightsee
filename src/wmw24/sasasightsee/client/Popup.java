@@ -1,6 +1,9 @@
 
 package wmw24.sasasightsee.client;
 
+import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
+import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
+import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -73,7 +76,26 @@ public class Popup extends DivView
                double lat = result.getCoordinates().getLatitude();
                double accuracy = result.getCoordinates().getAccuracy();
 
-               Popup.this.appendChild(new SpanView("Nearest busStation: " + Popup.this.nearest(lat, lon).getName()));
+               BusStation nearestToYou = Popup.this.nearest(lat, lon);
+               Popup.this.appendChild(new SpanView("Nearest busStation: " + nearestToYou.getName()));
+
+               try
+               {
+                  SASAbusDBClientImpl.singleton.calcRoute(nearestToYou.getId(), Popup.this.nearestToPoi.getId(), 201405090900L, new SASAbusDBDataReady<ConRes>()
+                  {
+
+                     @Override
+                     public void ready(ConRes data)
+                     {
+                        Popup.this.displayRoute(data);
+                     }
+                  });
+               }
+               catch (Exception e)
+               {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+               }
 
                //Window.alert("lat: " + lat + " lon: " + lon + " acc (meter): " + accuracy);
 
@@ -93,6 +115,11 @@ public class Popup extends DivView
       {
          Window.alert("Your browser does not support localization");
       }
+   }
+
+   void displayRoute(ConRes data)
+   {
+
    }
 
    BusStation nearest(double lat, double lon)

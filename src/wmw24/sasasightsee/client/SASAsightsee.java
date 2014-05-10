@@ -46,7 +46,7 @@ public class SASAsightsee implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-	   SASAbusDBClientImpl.singleton = new SASAbusDBClientImpl("http://html5.sasabus.org/backend");
+	   SASAbusDBClientImpl.singleton = new SASAbusDBClientImpl("http://html5.sasabus.org/backend/");
 
 	   final Map map = new Map((com.google.gwt.user.client.Element) Document
 				.get().getElementById("map"));
