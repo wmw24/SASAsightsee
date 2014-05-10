@@ -27,8 +27,8 @@ public class SASAsightsee implements EntryPoint
 {
 
 	public static final String[] OSM_URL = {
-			"(node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];way[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];>);out;",
-			"(node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];>);out;",
+			"(node[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.35)[name];way[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.35)[name];>);out;",
+			"(node[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];>);out;",
 			"(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];>);out;",
 			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];>);out;" };
 
