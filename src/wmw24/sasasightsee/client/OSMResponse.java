@@ -11,7 +11,7 @@ public class OSMResponse extends JavaScriptObject
 
 	}
 
-	public final native JsArray<OSMObject> getElements() /*-{
+	public final native JsArray<OSMNode> getElements() /*-{
 		return this.elements;
 	}-*/;
 
