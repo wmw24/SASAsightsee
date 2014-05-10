@@ -42,7 +42,7 @@
 	width:90%;
 	left:5%;
 	
-	min-height:1400px;
+	min-height:700px;
 }
 
 @media only screen and (min-width: 530px)
@@ -143,6 +143,7 @@
 			detailButton.onclick = function()
 			{
 				map.closePopup();
+				window.scrollTo(0,0);
 				detailcontainer.style.display = 'block'
 			}
 			
