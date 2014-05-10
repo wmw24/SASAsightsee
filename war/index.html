@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<link rel="stylesheet"
+	href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<style>
+
+
+#map {
+	position: fixed;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+}
+
+.popup .title
+{
+	font-size:130%;
+	font-weight:bold;
+}
+
+#detailbackground
+{
+	position:fixed;
+	z-index:2000;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	background-color:rgba(0,0,0,0.5);
+}
+#detail
+{
+	position:absolute;
+	top:30px;
+	background-color:white;
+	z-index:2001;
+	width:90%;
+	left:5%;
+	
+	min-height:700px;
+}
+
+@media only screen and (min-width: 530px)
+{
+	#detail
+	{
+   		width:500px;
+   		left:50%;
+   		margin-left:-250px;
+   	}
+   	
+}
+
+</style>
+</head>
+<body>
+
+    <div id="detailcontainer" style="display:none">
+    	<div id="detailbackground"></div>
+    	
+    	<div id="detail">
+    	<button id="closebutton" style="float:right;">X</button>
+    	<div id="detailcontent">Bla bla ...</div>
+    	
+    	</div>
+    </div>
+   
+    	
+   
+	<div id="title">SASAsightsee</div>
+	<div id="map"></div>
+
+	<script type="text/javascript">
+	
+	    var detailcontent = document.getElementById('detailcontent')
+	
+	    var detailcontainer = document.getElementById('detailcontainer')
+	    var closebutton = document.getElementById('closebutton')
+	    var detailbackground = document.getElementById('detailbackground')
+	    var closefunction = function()
+	    {
+	    	detailcontainer.style.display = 'none'
+	    }
+	    closebutton.onclick = closefunction;
+	    detailbackground.onclick = closefunction;
+	
+		var lang = "de";
+	
+		var map = L.map('map').setView([ 46.5733,11.2321 ], 10);
+		L.tileLayer(
+						'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+						{
+							attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+							maxZoom : 18
+						}).addTo(map);
+		
+		var pois = 
+		[
+		{
+			name: { "de": "Museion", "it": "Museion", "en": "Museion" }, 
+			lat: 46.5733,
+			lon: 11.2321,
+			popup: {"de": "Das Museum der modernen Kunst",
+				"it": "Museo dell'arte moderna",
+				"en": "Museum of modern arts" },
+		},
+		{
+ 			name: { "de": "Obstmarkt", "it": "Piazza Erbe", "en": "Fruit market" },
+			lat: 46.5833,
+			lon: 11.2221,
+			popup: {de: "Obstmarkt"}
+		}
+		];
+		var myIcon = L.icon(
+		{
+		    iconUrl: './images/historical_museum.png',
+		    iconSize: [32, 37],
+		    iconAnchor: [16, 37],
+		    popupAnchor: [0, -33],
+		}
+		);
+		/*
+		for (var i = 0; i < pois.length; i++)
+	    {
+			var poi = pois[i];
+			var popup = createPopup(poi);
+			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
+	    }
+		*/
+		function createPopup(poi)
+		{
+			var dive = document.createElement('div');
+			dive.className = 'popup';
+			var title = document.createElement('div');
+			title.className = 'title';
+			title.innerHTML = poi.tags.name;
+
+			var detailButton = document.createElement('button');
+			detailButton.innerHTML = 'More ...';
+			
+			detailButton.onclick = function()
+			{
+				map.closePopup();
+				window.scrollTo(0,0);
+				setDetail(poi)
+				detailcontainer.style.display = 'block'
+				//alert(stations.length)
+			}
+			
+			dive.appendChild(title);
+			dive.appendChild(detailButton);
+			
+			
+			
+			
+			return dive;
+		}
+		function setDetail(poi)
+		{
+			detailcontent.innerHTML = poi.tags.name;
+		}
+		
+		function ondata(response)
+		{
+			var elements = response.elements;
+			//alert(elements.length)
+			for (var i=0; i < elements.length; i++)
+			{
+				var poi = elements[i];
+				//alert(poi.type)
+				var popup = createPopup(poi);
+				L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
+			}
+		}
+		
+		var head = document.getElementsByTagName('head')[0];
+		var script1 = document.createElement('script');
+		script1.src = 'http://overpass-api.de/api/interpreter?jsonp=ondata&data=[out:json];node[amenity~%22bar|restaurant|cafe%22]%2846.46,11.28,46.51,11.35%29;out;'
+		head.appendChild(script1);
+		
+		var stations;
+		
+		function busstations(data)
+		{
+			stations = data;
+		}
+		
+		var script2 = document.createElement('script');
+		script2.src = 'http://opensasa.info/SASAplandata/getData.php?type=REC_ORT&jsonp=busstations'
+		head.appendChild(script2);
+		
+	</script>
+</body>
+</html>
