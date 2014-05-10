@@ -65,7 +65,7 @@
     	
     	<div id="detail">
     	<button id="closebutton" style="float:right;">X</button>
-    	<div id="content">Bla bla ...</div>
+    	<div id="detailcontent">Bla bla ...</div>
     	
     	</div>
     </div>
@@ -76,6 +76,8 @@
 	<div id="map"></div>
 
 	<script type="text/javascript">
+	
+	    var detailcontent = document.getElementById('detailcontent')
 	
 	    var detailcontainer = document.getElementById('detailcontainer')
 	    var closebutton = document.getElementById('closebutton')
@@ -144,6 +146,7 @@
 			{
 				map.closePopup();
 				window.scrollTo(0,0);
+				setDetail(poi)
 				detailcontainer.style.display = 'block'
 			}
 			
@@ -154,6 +157,10 @@
 			
 			
 			return dive;
+		}
+		function setDetail(poi)
+		{
+			detailcontent.innerHTML = poi.name[lang];
 		}
 	</script>
 </body>
