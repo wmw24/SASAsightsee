@@ -93,7 +93,10 @@ public class SASAsightsee implements EntryPoint
 					}
 				}
 				++counter;
-				onOSMReady(map, poilist);
+				if (counter == OSM_URL.length)
+				{
+					onOSMReady(map, poilist);
+				}
 
 			}
 
@@ -103,11 +106,6 @@ public class SASAsightsee implements EntryPoint
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
 	{
-		++counter;
-		if (counter != OSM_URL.length)
-		{
-
-		}
 
 		String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
