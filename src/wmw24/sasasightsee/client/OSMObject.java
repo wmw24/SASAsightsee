@@ -1,32 +1,33 @@
+
 package wmw24.sasasightsee.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class OSMObject extends JavaScriptObject
 {
-	protected OSMObject()
-	{
+   protected OSMObject()
+   {
 
-	}
+   }
 
-	public final native String getType() /*-{
+   public final native String getType() /*-{
 		return this.type;
-	}-*/;
+   }-*/;
 
-	public final native String getId() /*-{
+   public final native String getId() /*-{
 		return this.id;
-	}-*/;
+   }-*/;
 
-	public final native Double getLat() /*-{
+   public final native double getLat() /*-{
 		return this.lat;
-	}-*/;
+   }-*/;
 
-	public final native Double getLon() /*-{
+   public final native double getLon() /*-{
 		return this.lon;
-	}-*/;
+   }-*/;
 
-	public final native OSMTags getTags() /*-{
+   public final native OSMTags getTags() /*-{
 		return this.tags;
-	}-*/;
+   }-*/;
 
 }
