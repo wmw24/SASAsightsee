@@ -31,6 +31,25 @@
 							attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 							maxZoom : 18
 						}).addTo(map);
+		
+		var pois = 
+		[
+		{
+			name: "Museion",
+			lat: 46.5733,
+			lon:11.2321
+		},
+		{
+			name: "Piazza Erbe",
+			lat: 46.5833,
+			lon:11.2221
+		}
+		];
+		for (var i = 0; i < pois.length; i++)
+	    {
+			var poi = pois[i];
+			L.marker([poi.lat,poi.lon]).addTo(map);
+	    }
 	</script>
 </body>
 </html>
