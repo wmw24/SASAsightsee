@@ -78,6 +78,7 @@
 
 	<script type="text/javascript">
 	
+	    /*
 	    return;
 	
 	    var detailcontent = document.getElementById('detailcontent')
@@ -127,14 +128,14 @@
 		    popupAnchor: [0, -33],
 		}
 		);
-		/*
+		/ *
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
 			var popup = createPopup(poi);
 			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
 	    }
-		*/
+		* /
 		function createPopup(poi)
 		{
 			var dive = document.createElement('div');
@@ -196,7 +197,7 @@
 		var script2 = document.createElement('script');
 		script2.src = 'http://opensasa.info/SASAplandata/getData.php?type=REC_ORT&jsonp=busstations'
 		head.appendChild(script2);
-		
+		*/
 	</script>
 </body>
 </html>
