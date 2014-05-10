@@ -19,6 +19,7 @@
 
   <!-- Other module inherits                                      -->
    <inherits name="bz.davide.dmweb.DMWeb"/>
+   <inherits name='it.bz.tis.sasabus.html5.SASAbusHTML5-lib'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='wmw24.sasasightsee.client.SASAsightsee'/>

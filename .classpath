@@ -6,5 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dm-xml-json-lib-1.0.20140408.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dm-web-lib-1.0.20140510.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/sasabus-backend-lib-1.0.20140330.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/sasabus-html5-lib-1.0.20140424.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
