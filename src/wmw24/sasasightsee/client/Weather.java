@@ -23,7 +23,7 @@ public class Weather
 	/**
 	 * Weather image URL
 	 */
-	private Map<String, URL> imageURL = new HashMap<String, URL>();
+	private Map<String, String> imageURL = new HashMap<String, String>();
 	
 	/**
 	 * Minimal temperature
@@ -52,14 +52,14 @@ public class Weather
 	/**
 	 * @return the imageURL
 	 */
-	public URL getImageURL(String key) {
+	public String getImageURL(String key) {
 		return imageURL.containsKey(key) ? imageURL.get(key) : imageURL.get(null);
 	}
 
 	/**
 	 * @param imageURL the imageURL to set
 	 */
-	public void setImageURL(String key, URL imageURL) {
+	public void setImageURL(String key, String imageURL) {
 		this.imageURL.put(key, imageURL);
 	}
 
