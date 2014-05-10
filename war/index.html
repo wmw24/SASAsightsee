@@ -78,6 +78,8 @@
 
 	<script type="text/javascript">
 	
+	    return;
+	
 	    var detailcontent = document.getElementById('detailcontent')
 	
 	    var detailcontainer = document.getElementById('detailcontainer')
@@ -182,7 +184,7 @@
 		var head = document.getElementsByTagName('head')[0];
 		var script1 = document.createElement('script');
 		script1.src = 'http://overpass-api.de/api/interpreter?jsonp=ondata&data=[out:json];node[amenity~%22bar|restaurant|cafe%22]%2846.46,11.28,46.51,11.35%29;out;'
-		head.appendChild(script1);
+		//head.appendChild(script1);
 		
 		var stations;
 		
