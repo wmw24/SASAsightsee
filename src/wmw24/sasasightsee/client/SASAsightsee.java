@@ -1,10 +1,8 @@
 package wmw24.sasasightsee.client;
 
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -14,7 +12,6 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -24,6 +21,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
@@ -199,7 +197,15 @@ public class SASAsightsee implements EntryPoint
 			iconOptions.setIconSize(32, 37);
 			iconOptions.setIconAnchor(16, 37);
 			iconOptions.setPopupAnchor(0, -33);
-			iconOptions.setIconUrl("images/historical_museum.png");
+			int randomInt = Random.nextInt(4);
+			if (randomInt == 0)
+         {
+			   iconOptions.setIconUrl("images/historical_museum_sponsored.png");
+         }
+         else
+         {
+            iconOptions.setIconUrl("images/historical_museum.png");
+         }
 			Icon icon = new Icon(iconOptions);
 			MarkerOptions markerOptions = new MarkerOptions();
 			markerOptions.setIcon(icon);
