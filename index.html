@@ -24,7 +24,9 @@
 	<div id="map"></div>
 
 	<script type="text/javascript">
-		var map = L.map('map').setView([ 46.5733,11.2321 ], 11);
+		var lang = "de";
+	
+		var map = L.map('map').setView([ 46.5733,11.2321 ], 10);
 		L.tileLayer(
 						'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 						{
@@ -35,20 +37,23 @@
 		var pois = 
 		[
 		{
-			name: "Museion",
+			name: { "de": "Museion", "it": "Museion", "en": "Museion" }, 
 			lat: 46.5733,
-			lon:11.2321
+			lon: 11.2321,
+			popup: {"de": "Das Museum der modernen Kunst",
+				"it": "Museo dell'arte moderna",
+				"en": "Museum of modern arts" },
 		},
 		{
-			name: "Piazza Erbe",
+ 			name: { "de": "Obstmarkt", "it": "Piazza Erbe", "en": "Fruit market" },
 			lat: 46.5833,
-			lon:11.2221
+			lon: 11.2221,
 		}
 		];
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
-			L.marker([poi.lat,poi.lon]).addTo(map);
+			L.marker([poi.lat,poi.lon]).addTo(map).bindPopup(poi.popup[lang]);
 	    }
 	</script>
 </body>
