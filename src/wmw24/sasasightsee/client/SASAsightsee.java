@@ -152,33 +152,33 @@ public class SASAsightsee implements EntryPoint
 						if (poi.getName().equals(
 								"Messner Mountain Museum Firmian"))
 						{
-							/*
-							 * poi.setAttr("addrCity", object.getTags()
-							 * .getAddrCity()); poi.setAttr("addrCountry",
-							 * object.getTags() .getAddrCountry());
-							 * poi.setAttr("addrHousename", object.getTags()
-							 * .getAddrHousename());
-							 * poi.setAttr("addrHousename:de", object.getTags()
-							 * .getAddrHouseNameDe());
-							 * poi.setAttr("addrHousename:it", object.getTags()
-							 * .getAddrHouseNameIt());
-							 * poi.setAttr("addrHousenumber", object.getTags()
-							 * .getAddrHousenumber());
-							 * poi.setAttr("addrPostcode", object.getTags()
-							 * .getAddrPostcode()); poi.setAttr("addrStreet",
-							 * object.getTags() .getAddrStreet());
-							 * poi.setAttr("email",
-							 * object.getTags().getEmail()); poi.setAttr("fax",
-							 * object.getTags().getFax());
-							 * poi.setAttr("operator", object.getTags()
-							 * .getOperator()); poi.setAttr("phone",
-							 * object.getTags().getPhone());
-							 * poi.setAttr("webseite", object.getTags()
-							 * .getWebsite()); poi.setAttr("wikipedia",
-							 * object.getTags() .getWikipedia());
-							 * poi.setAttr("wheelchair", object.getTags()
-							 * .getWheelchair());
-							 */
+							poi.setAttr("addrCity", object.getTags()
+									.getAddrCity());
+							poi.setAttr("addrCountry", object.getTags()
+									.getAddrCountry());
+							poi.setAttr("addrHousename", object.getTags()
+									.getAddrHousename());
+							poi.setAttr("addrHousename:de", object.getTags()
+									.getAddrHouseNameDe());
+							poi.setAttr("addrHousename:it", object.getTags()
+									.getAddrHouseNameIt());
+							poi.setAttr("addrHousenumber", object.getTags()
+									.getAddrHousenumber());
+							poi.setAttr("addrPostcode", object.getTags()
+									.getAddrPostcode());
+							poi.setAttr("addrStreet", object.getTags()
+									.getAddrStreet());
+							poi.setAttr("email", object.getTags().getEmail());
+							poi.setAttr("fax", object.getTags().getFax());
+							poi.setAttr("operator", object.getTags()
+									.getOperator());
+							poi.setAttr("phone", object.getTags().getPhone());
+							poi.setAttr("webseite", object.getTags()
+									.getWebsite());
+							poi.setAttr("wikipedia", object.getTags()
+									.getWikipedia());
+							poi.setAttr("wheelchair", object.getTags()
+									.getWheelchair());
 						}
 						poilist.add(poi);
 					}
