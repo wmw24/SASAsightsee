@@ -1,5 +1,6 @@
-
 package wmw24.sasasightsee.client;
+
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
@@ -12,38 +13,49 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class SASAsightsee implements EntryPoint
 {
-   @Override
-   public void onModuleLoad()
-   {
-      Window.alert("Hello from gwt");
 
-      String url = "http://overpass-api.de/api/interpreter?data=[out:json];%28node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;%3E%29;out;";
+	private ArrayList<Poi> poilist = new ArrayList<Poi>();
 
-      JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
-      jsonp.setCallbackParam("jsonp");
+	@Override
+	public void onModuleLoad()
+	{
+		Window.alert("Hello from gwt");
 
-      jsonp.requestObject(url, new AsyncCallback<OSMResponse>()
-      {
+		String url = "http://overpass-api.de/api/interpreter?data=[out:json];%28node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;%3E%29;out;";
 
-         @Override
-         public void onSuccess(OSMResponse response)
-         {
-            JsArray<OSMObject> entries = response.getElements();
-            Window.alert(entries.length() + " Object read from OSM");
-            for (int i = 0; i < entries.length() && i < 3; i++)
-            {
-               OSMObject object = entries.get(i);
-               Window.alert(object.getType());
-            }
-         }
+		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+		jsonp.setCallbackParam("jsonp");
 
-         @Override
-         public void onFailure(Throwable caught)
-         {
-            // TODO Auto-generated method stub
-            return;
-         }
-      });
+		jsonp.requestObject(url, new AsyncCallback<OSMResponse>()
+		{
 
-   }
+			@Override
+			public void onSuccess(OSMResponse response)
+			{
+				JsArray<OSMObject> elements = response.getElements();
+				Window.alert(elements.length() + " Object read from OSM");
+				for (int i = 0; i < elements.length(); i++)
+				{
+					OSMObject object = elements.get(i);
+					if (object.getType() == "node" && object.getTags() != null)
+					{
+						Poi poi = new Poi();
+						poi.setLat(object.getLat());
+						poi.setLon(object.getLon());
+						poi.setName(object.getTags().getName());
+						poi.setAmenity(object.getTags().getAmenity());
+						poilist.add(poi);
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+				return;
+			}
+		});
+
+	}
 }
