@@ -2,6 +2,8 @@
 package wmw24.sasasightsee.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -11,6 +13,7 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -48,7 +51,7 @@ public class SASAsightsee implements EntryPoint
       }
    }
 
-   static void weather() throws RequestException
+   private static void weather() throws RequestException
    {
       RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, "weather.xml");
       builder.sendRequest("", new RequestCallback()
@@ -59,9 +62,11 @@ public class SASAsightsee implements EntryPoint
          {
             Window.alert(response.getText());
             com.google.gwt.xml.client.Document xmldoc = XMLParser.parse(response.getText());
+            java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
+            
             Element today = (Element) xmldoc.getElementsByTagName("today").item(0);
             Window.alert(today.getNodeValue());
-            osmRequest();
+            osmRequest(weatherMap);
          }
 
          @Override
@@ -72,7 +77,7 @@ public class SASAsightsee implements EntryPoint
 
    }
 
-   private static void osmRequest()
+   private static void osmRequest(final java.util.Map<String, Weather> weather)
    {
       final Map map = new Map((com.google.gwt.user.client.Element) Document.get().getElementById("map"));
       map.addLayer(new OSMLayer());
@@ -105,7 +110,7 @@ public class SASAsightsee implements EntryPoint
                   poilist.add(poi);
                }
             }
-            onOSMReady(map, poilist);
+            onOSMReady(map, poilist, weather);
          }
 
          @Override
@@ -117,7 +122,8 @@ public class SASAsightsee implements EntryPoint
       });
    }
 
-   private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
+   private static void onOSMReady(final Map map, final ArrayList<Poi> poilist,
+		   final java.util.Map<String, Weather> weather)
    {
       String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
@@ -136,7 +142,7 @@ public class SASAsightsee implements EntryPoint
             {
                busStations.add(response.get(i));
             }
-            onBusStationReady(map, poilist, busStations);
+            onBusStationReady(map, poilist, busStations, weather);
          }
 
          @Override
@@ -148,7 +154,8 @@ public class SASAsightsee implements EntryPoint
       });
    }
 
-   static void onBusStationReady(final Map map, ArrayList<Poi> poilist, final ArrayList<BusStation> busStations)
+   private static void onBusStationReady(final Map map, ArrayList<Poi> poilist,
+		   final ArrayList<BusStation> busStations, final java.util.Map<String, Weather> weather)
    {
       for (int i = 0; i < poilist.size(); i++)
       {
