@@ -149,6 +149,7 @@
 				window.scrollTo(0,0);
 				setDetail(poi)
 				detailcontainer.style.display = 'block'
+				//alert(stations.length)
 			}
 			
 			dive.appendChild(title);
@@ -181,6 +182,17 @@
 		var script1 = document.createElement('script');
 		script1.src = 'http://overpass-api.de/api/interpreter?jsonp=ondata&data=[out:json];node[amenity~%22bar|restaurant|cafe%22]%2846.46,11.28,46.51,11.35%29;out;'
 		head.appendChild(script1);
+		
+		var stations;
+		
+		function busstations(data)
+		{
+			stations = data;
+		}
+		
+		var script2 = document.createElement('script');
+		script2.src = 'http://opensasa.info/SASAplandata/getData.php?type=REC_ORT&jsonp=busstations'
+		head.appendChild(script2);
 		
 	</script>
 </body>
