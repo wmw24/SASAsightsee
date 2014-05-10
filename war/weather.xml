@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provBulletin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <date>2014-05-10T00:00:00</date>
+   <dayForecast>
+      <date>2014-05-12T00:00:00</date>
+      <reliability>70</reliability>
+      <symbol>
+         <code>f</code>
+         <description>Nuvoloso, piogge moderate</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png</imageURL>
+      </symbol>
+      <tempMax>
+         <max>20</max>
+         <min>12</min>
+      </tempMax>
+      <tempMin>
+         <max>10</max>
+         <min>2</min>
+      </tempMin>
+   </dayForecast>
+   <dayForecast>
+      <date>2014-05-13T00:00:00</date>
+      <reliability>70</reliability>
+      <symbol>
+         <code>c</code>
+         <description>Nuvoloso</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+      </symbol>
+      <tempMax>
+         <max>21</max>
+         <min>11</min>
+      </tempMax>
+      <tempMin>
+         <max>9</max>
+         <min>3</min>
+      </tempMin>
+   </dayForecast>
+   <dayForecast>
+      <date>2014-05-14T00:00:00</date>
+      <reliability>80</reliability>
+      <symbol>
+         <code>b</code>
+         <description>Poco nuvoloso</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_2.png</imageURL>
+      </symbol>
+      <tempMax>
+         <max>21</max>
+         <min>10</min>
+      </tempMax>
+      <tempMin>
+         <max>10</max>
+         <min>3</min>
+      </tempMin>
+   </dayForecast>
+   <dayForecast>
+      <date>2014-05-15T00:00:00</date>
+      <reliability>70</reliability>
+      <symbol>
+         <code>b</code>
+         <description>Poco nuvoloso</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_2.png</imageURL>
+      </symbol>
+      <tempMax>
+         <max>21</max>
+         <min>8</min>
+      </tempMax>
+      <tempMin>
+         <max>10</max>
+         <min>3</min>
+      </tempMin>
+   </dayForecast>
+   <evolution>Per lunedì si prevede tempo a tratti soleggiato. Verso sera e durante la notte fra lunedì e
+      martedì la probabilità di rovesci sarà in aumento. Martedì alternanza fra sole e nubi con föhn da nord.
+      Mercoledì e giovedì ventoso ma generalmente soleggiato, solo lungo la cresta di confine tempo più
+      variabile.</evolution>
+   <evolutionTitle>Temperature in flessione</evolutionTitle>
+   <hour>11:00</hour>
+   <Id>22944</Id>
+   <mountainToday>
+      <conditions>Permarranno condizioni anticicloniche.</conditions>
+      <date>2014-05-10T00:00:00</date>
+      <imageURL>http://www.provinz.bz.it/wetter/graphics.asp?type=mountainmap0&amp;ID=22944&amp;lang=it&amp;color=1</imageURL>
+      <moonRise>15:59</moonRise>
+      <moonSet>03:29</moonSet>
+      <north>
+         <code>f</code>
+         <description>Nuvoloso, piogge moderate</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png</imageURL>
+      </north>
+      <reliability>80</reliability>
+      <south>
+         <code>c</code>
+         <description>Nuvoloso</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+      </south>
+      <sunRise>05:49</sunRise>
+      <sunSet>20:36</sunSet>
+      <temp1000>20</temp1000>
+      <temp2000>12</temp2000>
+      <temp3000>1</temp3000>
+      <temp4000>-6</temp4000>
+      <title>Sole e nubi</title>
+      <weather>Nel pomeriggio nubi alte e nubi cumuliformi, verso sera aumenterà la probabilità di isolati
+         rovesci e temporali.</weather>
+      <wind>
+         <code>F2</code>
+         <description>moderato da sudovest</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wind/wind_2_sw.png</imageURL>
+      </wind>
+      <zerolimit>3200</zerolimit>
+   </mountainToday>
+   <mountainTomorrow>
+      <conditions>In serata transito di un fronte freddo da nord.</conditions>
+      <date>2014-05-11T00:00:00</date>
+      <imageURL>http://www.provinz.bz.it/wetter/graphics.asp?type=mountainmap1&amp;ID=22944&amp;lang=it&amp;color=1</imageURL>
+      <moonRise>17:03</moonRise>
+      <moonSet>03:56</moonSet>
+      <north>
+         <code>h</code>
+         <description>Coperto, piogge moderate</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_8.png</imageURL>
+      </north>
+      <reliability>70</reliability>
+      <snowlimit>2000-2400</snowlimit>
+      <south>
+         <code>v</code>
+         <description>Coperto, temporali con rovesci intensi</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_22.png</imageURL>
+      </south>
+      <sunRise>05:48</sunRise>
+      <sunSet>20:37</sunSet>
+      <temp1000>15</temp1000>
+      <temp2000>5</temp2000>
+      <temp3000>-2</temp3000>
+      <temp4000>-10</temp4000>
+      <title>Nuvoloso con rovesci</title>
+      <weather>Le condizioni in montagna con saranno buone, cime spesso avvolte dalle nubi ed in giornata
+         rovesci e temporali diffuse, a tratti anche di forte intensità.</weather>
+      <wind>
+         <code>F3</code>
+         <description>forte da sudovest</description>
+         <imageURL>http://www.provinz.bz.it/wetter/imgsource/wind/wind_3_sw.png</imageURL>
+      </wind>
+      <zerolimit>2500</zerolimit>
+   </mountainTomorrow>
+   <today>
+      <conditions>Permarranno condizioni anticicloniche.</conditions>
+      <date>2014-05-10T00:00:00</date>
+      <imageURL>http://www.provinz.bz.it/wetter/graphics.asp?type=meteomap0&amp;ID=22944&amp;lang=it&amp;color=1</imageURL>
+      <stationData>
+         <Id>1</Id>
+         <symbol>
+            <code>c</code>
+            <description>Nuvoloso</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>23</max>
+            <min>8</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>2</Id>
+         <symbol>
+            <code>c</code>
+            <description>Nuvoloso</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>25</max>
+            <min>11</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>3</Id>
+         <symbol>
+            <code>c</code>
+            <description>Nuvoloso</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>26</max>
+            <min>12</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>4</Id>
+         <symbol>
+            <code>c</code>
+            <description>Nuvoloso</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>20</max>
+            <min>7</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>5</Id>
+         <symbol>
+            <code>c</code>
+            <description>Nuvoloso</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_3.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>24</max>
+            <min>9</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>6</Id>
+         <symbol>
+            <code>f</code>
+            <description>Nuvoloso, piogge moderate</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>22</max>
+            <min>7</min>
+         </temperature>
+      </stationData>
+      <temperatures>Temperature massime tra 18° e 26°.</temperatures>
+      <title>Sole e nubi</title>
+      <weather>Nel pomeriggio sviluppo di nubi cumuliformi e verso sera non si esclude qualche locale
+         rovescio.</weather>
+   </today>
+   <tomorrow>
+      <conditions>In serata transito di un fronte freddo da nord.</conditions>
+      <date>2014-05-11T00:00:00</date>
+      <imageURL>http://www.provinz.bz.it/wetter/graphics.asp?type=meteomap1&amp;ID=22944&amp;lang=it&amp;color=1</imageURL>
+      <stationData>
+         <Id>1</Id>
+         <symbol>
+            <code>h</code>
+            <description>Coperto, piogge moderate</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_8.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>16</max>
+            <min>9</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>2</Id>
+         <symbol>
+            <code>v</code>
+            <description>Coperto, temporali con rovesci intensi</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_22.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>18</max>
+            <min>12</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>3</Id>
+         <symbol>
+            <code>g</code>
+            <description>Nuvoloso, piogge intense</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_7.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>19</max>
+            <min>12</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>4</Id>
+         <symbol>
+            <code>h</code>
+            <description>Coperto, piogge moderate</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_8.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>13</max>
+            <min>7</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>5</Id>
+         <symbol>
+            <code>u</code>
+            <description>Nuvoloso, temporali con moderati rovesci</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_21.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>16</max>
+            <min>9</min>
+         </temperature>
+      </stationData>
+      <stationData>
+         <Id>6</Id>
+         <symbol>
+            <code>h</code>
+            <description>Coperto, piogge moderate</description>
+            <imageURL>http://www.provinz.bz.it/wetter/imgsource/wetter/icon_8.png</imageURL>
+         </symbol>
+         <temperature>
+            <max>15</max>
+            <min>7</min>
+         </temperature>
+      </stationData>
+      <temperatures>Temperature massime comprese fra 13° e 20°.</temperatures>
+      <title>Nuvoloso con rovesci</title>
+      <weather>Cielo generalmente nuvoloso con rovesci in giornata, localmente saranno possibili anche
+         temporali.</weather>
+   </tomorrow>
+</provBulletin>
