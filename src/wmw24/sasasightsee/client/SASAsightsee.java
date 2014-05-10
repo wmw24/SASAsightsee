@@ -35,22 +35,28 @@ public class SASAsightsee implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
-		for (int i = 0; i < OSM_URL.length; ++i)
-		{
-			String url = OSM_URL[i];
-			osmRequest(url);
-		}
-	}
-
-	private static void osmRequest(String query)
-	{
 		final Map map = new Map((com.google.gwt.user.client.Element) Document
 				.get().getElementById("map"));
 		map.addLayer(new OSMLayer());
 		map.setView(new LatLng(46.5733, 11.2321), 10);
 
+		for (int i = 0; i < OSM_URL.length; ++i)
+		{
+			String url = OSM_URL[i];
+			osmRequest(map, url);
+		}
+
+		/*
+		 * try { weather(); } catch (RequestException e) { // TODO
+		 * Auto-generated catch block e.printStackTrace(); }
+		 */
+	}
+
+	private static void osmRequest(final Map map, String query)
+	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
 				+ query;
+
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
 		jsonp.setCallbackParam("jsonp");
 
@@ -58,8 +64,16 @@ public class SASAsightsee implements EntryPoint
 		{
 
 			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
 			public void onSuccess(OSMResponse response)
 			{
+
 				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
 				JsArray<OSMObject> elements = response.getElements();
@@ -80,19 +94,16 @@ public class SASAsightsee implements EntryPoint
 				}
 				++counter;
 				onOSMReady(map, poilist);
+
 			}
 
-			@Override
-			public void onFailure(Throwable caught)
-			{
-				// TODO Auto-generated method stub
-				return;
-			}
 		});
+
 	}
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
 	{
+		++counter;
 		if (counter != OSM_URL.length)
 		{
 
