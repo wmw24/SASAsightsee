@@ -18,4 +18,16 @@ public class BusStation extends JavaScriptObject
 		return this.busstops;
    }-*/;
 
+   public final String getId()
+   {
+      String ret = ":";
+      JsArray<BusStop> stops = this.getBusStops();
+      for (int i = 0; i < stops.length(); i++)
+      {
+         BusStop busStop = stops.get(i);
+         ret += String.valueOf(busStop.getORT_NR()) +":";
+      }
+      return ret;
+   }
+
 }
