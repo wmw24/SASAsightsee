@@ -18,35 +18,35 @@ public class OSMTags extends JavaScriptObject
 	}-*/;
 
 	public final native String getAddrCity() /*-{
-		return this.addr.city;
+		return this.addrcity;
 	}-*/;
 
 	public final native String getAddrCountry() /*-{
-		return this.addr.country;
+		return this.addrcountry;
 	}-*/;
 
 	public final native String getAddrHousename() /*-{
-		return this.addr.housename;
+		return this.addrhousename;
 	}-*/;
 
 	public final native String getAddrHouseNameDe() /*-{
-		return this.addr.housename.de;
+		return this.addrhousenamede;
 	}-*/;
 
 	public final native String getAddrHouseNameIt() /*-{
-		return this.addr.housename.it;
+		return this.addrhousenameit;
 	}-*/;
 
 	public final native String getAddrHousenumber() /*-{
-		return this.addr.housenumber;
+		return this.addrhousenumber;
 	}-*/;
 
 	public final native String getAddrPostcode() /*-{
-		return this.addr.postcode;
+		return this.addrpostcode;
 	}-*/;
 
 	public final native String getAddrStreet() /*-{
-		return this.addr.street;
+		return this.addrstreet;
 	}-*/;
 
 	public final native String getEmail() /*-{
