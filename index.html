@@ -62,7 +62,7 @@
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
-			L.marker([poi.lat,poi.lon] /*, {icon: myIcon} */).addTo(map).bindPopup(poi.popup[lang]);
+			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(poi.popup[lang]);
 	    }
 	</script>
 </body>
