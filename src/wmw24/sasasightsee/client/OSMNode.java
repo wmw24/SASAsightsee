@@ -3,9 +3,9 @@ package wmw24.sasasightsee.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class OSMObject extends JavaScriptObject
+public class OSMNode extends JavaScriptObject
 {
-   protected OSMObject()
+   protected OSMNode()
    {
 
    }

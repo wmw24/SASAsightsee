@@ -126,13 +126,13 @@ public class SASAsightsee implements EntryPoint
 
 				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
-				JsArray<OSMObject> elements = response.getElements();
+				JsArray<OSMNode> elements = response.getElements();
 				// Window.alert(elements.length() + " Object read from OSM");
 				for (int i = 0; i < elements.length(); i++)
 				{
-					OSMObject object = elements.get(i);
+					OSMNode object = elements.get(i);
 					if (object.getType().equals("node")
-							&& object.getTags() != null)
+							&& object.getTags() instanceof OSMTags)
 					{
 						Poi poi = new Poi();
 						poi.setLat(object.getLat());
