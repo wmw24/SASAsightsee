@@ -10,20 +10,83 @@
 
 
 #map {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top:0px;
+	position: fixed;
 	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
 }
+
+.popup .title
+{
+	font-size:130%;
+	font-weight:bold;
+}
+
+#detailbackground
+{
+	position:fixed;
+	z-index:2000;
+	left:0px;
+	right:0px;
+	top:0px;
+	bottom:0px;
+	background-color:rgba(0,0,0,0.5);
+}
+#detail
+{
+	position:absolute;
+	top:30px;
+	background-color:white;
+	z-index:2001;
+	width:90%;
+	left:5%;
+	
+	min-height:1400px;
+}
+
+@media only screen and (min-width: 530px)
+{
+	#detail
+	{
+   		width:500px;
+   		left:50%;
+   		margin-left:-250px;
+   	}
+   	
+}
+
 </style>
 </head>
 <body>
 
+    <div id="detailcontainer" style="display:none">
+    	<div id="detailbackground"></div>
+    	
+    	<div id="detail">
+    	<button id="closebutton" style="float:right;">X</button>
+    	<div id="content">Bla bla ...</div>
+    	
+    	</div>
+    </div>
+   
+    	
+   
 	<div id="title">SASAsightsee</div>
 	<div id="map"></div>
 
 	<script type="text/javascript">
+	
+	    var detailcontainer = document.getElementById('detailcontainer')
+	    var closebutton = document.getElementById('closebutton')
+	    var detailbackground = document.getElementById('detailbackground')
+	    var closefunction = function()
+	    {
+	    	detailcontainer.style.display = 'none'
+	    }
+	    closebutton.onclick = closefunction;
+	    detailbackground.onclick = closefunction;
+	
 		var lang = "de";
 	
 		var map = L.map('map').setView([ 46.5733,11.2321 ], 10);
@@ -48,7 +111,7 @@
  			name: { "de": "Obstmarkt", "it": "Piazza Erbe", "en": "Fruit market" },
 			lat: 46.5833,
 			lon: 11.2221,
-			popup: {}
+			popup: {de: "Obstmarkt"}
 		}
 		];
 		var myIcon = L.icon(
@@ -62,8 +125,34 @@
 		for (var i = 0; i < pois.length; i++)
 	    {
 			var poi = pois[i];
-			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(poi.popup[lang]);
+			var popup = createPopup(poi);
+			L.marker([poi.lat,poi.lon], {icon: myIcon}).addTo(map).bindPopup(popup);
 	    }
+		
+		function createPopup(poi)
+		{
+			var dive = document.createElement('div');
+			dive.className = 'popup';
+			var title = document.createElement('div');
+			title.className = 'title';
+			title.innerHTML = poi.name[lang];
+
+			var detailButton = document.createElement('button');
+			detailButton.innerHTML = 'More ...';
+			
+			detailButton.onclick = function()
+			{
+				detailcontainer.style.display = 'block'
+			}
+			
+			dive.appendChild(title);
+			dive.appendChild(detailButton);
+			
+			
+			
+			
+			return dive;
+		}
 	</script>
 </body>
 </html>
