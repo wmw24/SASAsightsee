@@ -75,15 +75,13 @@ public class SASAsightsee implements EntryPoint
 			@Override
 			public void onResponseReceived(Request request, Response response)
 			{
-				Window.alert(response.getText());
 				com.google.gwt.xml.client.Document xmldoc = XMLParser
 						.parse(response.getText());
-								
+				
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
 
 				Element today = (Element) xmldoc.getElementsByTagName("today")
 						.item(0);
-				Window.alert(today.getNodeValue());
 
 				for (int i = 0; i < OSM_URL.length; ++i)
 				{
