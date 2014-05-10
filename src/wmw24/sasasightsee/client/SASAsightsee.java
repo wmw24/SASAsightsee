@@ -1,8 +1,10 @@
 package wmw24.sasasightsee.client;
 
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -12,6 +14,7 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -33,8 +36,8 @@ public class SASAsightsee implements EntryPoint
 {
 
 	public static final String[] OSM_URL = {
-			"node[amenity~\"restaurant|hospital|parking\"](46.46,11.28,46.51,11.37)[name];out;",
-			"node[amenity~\"restaurant|hospital|parking\"](46.65,11.13,46.68,11.18)[name];out;",
+			"node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.37)[name];out;",
+			"node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];out;",
 			"node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];out;",
 			"node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];out;" };
 
@@ -243,13 +246,14 @@ public class SASAsightsee implements EntryPoint
 			iconOptions.setPopupAnchor(0, -33);
 			int randomInt = Random.nextInt(4);
 			if (randomInt == 0)
-         {
-			   iconOptions.setIconUrl("images/historical_museum_sponsored.png");
-         }
-         else
-         {
-            iconOptions.setIconUrl("images/historical_museum.png");
-         }
+			{
+				iconOptions
+						.setIconUrl("images/historical_museum_sponsored.png");
+			}
+			else
+			{
+				iconOptions.setIconUrl("images/historical_museum.png");
+			}
 			Icon icon = new Icon(iconOptions);
 			MarkerOptions markerOptions = new MarkerOptions();
 			markerOptions.setIcon(icon);
