@@ -1,7 +1,7 @@
 package wmw24.sasasightsee.client;
 
+import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 import java.util.ArrayList;
-
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -11,7 +11,6 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
@@ -35,6 +34,8 @@ public class SASAsightsee implements EntryPoint
 	@Override
 	public void onModuleLoad()
 	{
+	   SASAbusDBClientImpl.singleton = new SASAbusDBClientImpl("http://html5.sasabus.org/backend");
+
 		final Map map = new Map((com.google.gwt.user.client.Element) Document
 				.get().getElementById("map"));
 		map.addLayer(new OSMLayer());
@@ -93,10 +94,7 @@ public class SASAsightsee implements EntryPoint
 					}
 				}
 				++counter;
-				if (counter == OSM_URL.length)
-				{
-					onOSMReady(map, poilist);
-				}
+				onOSMReady(map, poilist);
 
 			}
 
@@ -106,6 +104,11 @@ public class SASAsightsee implements EntryPoint
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
 	{
+		++counter;
+		if (counter != OSM_URL.length)
+		{
+
+		}
 
 		String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
