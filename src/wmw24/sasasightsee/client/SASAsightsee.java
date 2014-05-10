@@ -14,6 +14,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class SASAsightsee implements EntryPoint
 {
 
+	public final String[] OSM_URL = {
+			"(node[amenity~\"bar|restaurant|cafe|hospital\"](46.46,11.28,46.51,11.35);way[amenity~\"bar|restaurant|cafe|hospital\"](46.46,11.28,46.51,11.35);>);out;",
+			"(node[amenity~\"bar|restaurant|cafe|hospital\"](46.65,11.13,46.68,11.18);way[amenity~\"bar|restaurant|cafe|hospital\"](46.65,11.13,46.68,11.18);>);out;" };
+
 	private ArrayList<Poi> poilist = new ArrayList<Poi>();
 
 	@Override
@@ -25,7 +29,7 @@ public class SASAsightsee implements EntryPoint
 
 	private void osmRequest()
 	{
-		String url = "http://overpass-api.de/api/interpreter?data=[out:json];%28node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;%3E%29;out;";
+		String url = "http://overpass-api.de/api/interpreter?data=[out:json];";
 
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
 		jsonp.setCallbackParam("jsonp");
@@ -41,7 +45,8 @@ public class SASAsightsee implements EntryPoint
 				for (int i = 0; i < elements.length(); i++)
 				{
 					OSMObject object = elements.get(i);
-					if (object.getType() == "node" && object.getTags() != null)
+					if (object.getType().equals("node")
+							&& object.getTags() != null)
 					{
 						Poi poi = new Poi();
 						poi.setLat(object.getLat());
