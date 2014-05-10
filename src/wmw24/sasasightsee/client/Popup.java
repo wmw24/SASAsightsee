@@ -7,12 +7,15 @@ import it.bz.tis.sasabus.backend.shared.travelplanner.Connection;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 import it.bz.tis.sasabus.html5.shared.ui.RowItem;
 import java.util.ArrayList;
+import java.util.Map;
+
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.shared.view.ButtonView;
 import bz.davide.dmweb.shared.view.DMClickEvent;
 import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.SpanView;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
@@ -24,12 +27,14 @@ public class Popup extends DivView
 {
    ButtonView            buttonView;
    ArrayList<BusStation> busStations;
+   Map<String, Weather> weather;
 
    BusStation            nearestToPoi;
 
-   public Popup(Poi poi, ArrayList<BusStation> busStations)
+   public Popup(Poi poi, ArrayList<BusStation> busStations, Map<String, Weather> weather)
    {
       this.busStations = busStations;
+      this.weather = weather;
       this.setStyleName("popup");
       this.appendChild(new SpanView(poi.getName()));
       this.buttonView = new ButtonView("With bus here");
