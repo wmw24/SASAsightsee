@@ -3,14 +3,19 @@ package wmw24.sasasightsee.client;
 
 import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
+import it.bz.tis.sasabus.backend.shared.travelplanner.Connection;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
+import it.bz.tis.sasabus.html5.shared.ui.RowItem;
 import java.util.ArrayList;
+import java.util.Map;
+
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.shared.view.ButtonView;
 import bz.davide.dmweb.shared.view.DMClickEvent;
 import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.SpanView;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
@@ -22,12 +27,14 @@ public class Popup extends DivView
 {
    ButtonView            buttonView;
    ArrayList<BusStation> busStations;
+   Map<String, Weather> weather;
 
    BusStation            nearestToPoi;
 
-   public Popup(Poi poi, ArrayList<BusStation> busStations)
+   public Popup(Poi poi, ArrayList<BusStation> busStations, Map<String, Weather> weather)
    {
       this.busStations = busStations;
+      this.weather = weather;
       this.setStyleName("popup");
       this.appendChild(new SpanView(poi.getName()));
       this.buttonView = new ButtonView("With bus here");
@@ -112,9 +119,24 @@ public class Popup extends DivView
       }
    }
 
-   void displayRoute(ConRes data)
+   void displayRoute(ConRes conRes)
    {
+      final Connection connection = conRes.getConnectionList().getConnections()[0];
+      RowItem rowItem = new RowItem(new DMClickHandler()
+      {
+         @Override
+         public void onClick(DMClickEvent event)
+         {
 
+         }
+      });
+      String startTime = formatTime(connection.getOverview().getDeparture().getBasicStop().getDep().getTime());
+      String transfers = "Transfers: " + connection.getOverview().getTransfers();
+      String duration = "Duration: " + formatTime(connection.getOverview().getDuration().getTime());
+      String endTime = formatTime(connection.getOverview().getArrival().getBasicStop().getArr().getTime());
+      rowItem.appendChild(new SpanView(startTime + " ---> " + endTime));
+      rowItem.appendChild(new SpanView(transfers + " - " + duration));
+      this.appendChild(rowItem);
    }
 
    BusStation nearest(double lat, double lon)
@@ -139,5 +161,16 @@ public class Popup extends DivView
          }
       }
       return best;
+   }
+
+   static String formatTime(String time)
+   {
+      if (time.startsWith("00d"))
+      {
+         time = time.substring(3);
+      }
+      String[] timeParts = time.split(":");
+      time = timeParts[0] + ":" + timeParts[1];
+      return time;
    }
 }
