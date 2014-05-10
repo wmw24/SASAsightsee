@@ -128,8 +128,7 @@ public class SASAsightsee implements EntryPoint
 				{
 					OSMNode object = elements.get(i);
 					if (object.getType().equals("node")
-							&& object.getTags() != null
-							&& !object.getTags().getName().equals(""))
+							&& object.getTags() != null)
 					{
 						Poi poi = new Poi();
 						poi.setLat(object.getLat());
