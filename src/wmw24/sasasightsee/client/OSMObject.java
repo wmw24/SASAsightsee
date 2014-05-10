@@ -14,7 +14,7 @@ public class OSMObject extends JavaScriptObject
 		return this.type;
    }-*/;
 
-   public final native int getId() /*-{
+   public final native String getId() /*-{
 		return this.id;
    }-*/;
 
