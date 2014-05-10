@@ -25,8 +25,8 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
+import com.mouchel.gwt.xpath.client.XPath;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -41,6 +41,11 @@ public class SASAsightsee implements EntryPoint
 			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];>);out;" };
 
 	public static int counter = 0;
+		
+	// Bz position (from http://tools.wmflabs.org/geohack/geohack.php) - for weather
+	public static final double BZ_LAT = 46.497978, BZ_LON = 11.354783;
+	// Me position (from http://tools.wmflabs.org/geohack/geohack.php) - for weather
+	public static final double ME_LAT = 46.666667, ME_LON = 11.166667;
 
 	@Override
 	public void onModuleLoad()
@@ -67,19 +72,46 @@ public class SASAsightsee implements EntryPoint
 
 	private static void weather(final Map map) throws RequestException
 	{
+		// TODO language?
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
 				"weather.xml");
 		builder.sendRequest("", new RequestCallback()
 		{
+			private void fetchWeatherTodayTomorrow(com.google.gwt.xml.client.Document xmldoc,
+					String node, java.util.Map<String, Weather> weatherMap)
+			{
+				// fetch weather for Me
+				String wDescription = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/symbol/description/text()").toString();
+				String wImageURL = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/symbol/imageURL/text()").toString();
+				String wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/max/text()").toString();
+				String wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/min/text()").toString();
+				Weather weather = new Weather();
+				weather.setDescription("2", wDescription);
+				weather.setImageURL("2", wImageURL);
+				weather.setTempMax("2", Integer.parseInt(wTempMax));
+				weather.setTempMin("2", Integer.parseInt(wTempMin));
+				// fetch weather for Bz
+				wDescription = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/description/text()").toString();
+				wImageURL = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/imageURL/text()").toString();
+				wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/max/text()").toString();
+				wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/min/text()").toString();
+				weather.setDescription("3", wDescription);
+				weather.setImageURL("3", wImageURL);
+				weather.setTempMax("3", Integer.parseInt(wTempMax));
+				weather.setTempMin("3", Integer.parseInt(wTempMin));
+				String wDate = XPath.evaluate(xmldoc, "//" + node + "/date/text()").toString().split("T")[0];
+				weatherMap.put(wDate, weather);				
+			}
+			
 			@Override
 			public void onResponseReceived(Request request, Response response)
 			{
 				com.google.gwt.xml.client.Document xmldoc = XMLParser
 						.parse(response.getText());
+				
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
-
-				Element today = (Element) xmldoc.getElementsByTagName("today")
-						.item(0);
+				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
+				fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
 
 				for (int i = 0; i < OSM_URL.length; ++i)
 				{
