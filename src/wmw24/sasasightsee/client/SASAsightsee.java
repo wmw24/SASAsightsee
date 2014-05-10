@@ -21,6 +21,10 @@ public class SASAsightsee implements EntryPoint
 	{
 		Window.alert("Hello from gwt");
 
+	}
+
+	private void osmRequest()
+	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];%28node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.46,11.28,46.51,11.35%29;node[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;way[amenity~%22bar|restaurant|cafe|hospital%22]%2846.65,11.13,46.68,11.18%29;%3E%29;out;";
 
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
@@ -56,6 +60,5 @@ public class SASAsightsee implements EntryPoint
 				return;
 			}
 		});
-
 	}
 }
