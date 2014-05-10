@@ -75,9 +75,39 @@ public class SASAsightsee implements EntryPoint
       });
    }
 
-   private static void onOSMReady(final Map map, ArrayList<Poi> poilist)
+   private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
    {
+      String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
+      JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+      jsonp.setCallbackParam("jsonp");
+
+      final ArrayList<BusStation> busStations = new ArrayList<>();
+
+      jsonp.requestObject(url, new AsyncCallback<JsArray<BusStation>>()
+      {
+
+         @Override
+         public void onSuccess(JsArray<BusStation> response)
+         {
+            for (int i = 0; i < response.length(); i++)
+            {
+               busStations.add(response.get(i));
+            }
+            onBusStationReady(map, poilist, busStations);
+         }
+
+         @Override
+         public void onFailure(Throwable caught)
+         {
+            // TODO Auto-generated method stub
+            return;
+         }
+      });
+   }
+
+   static void onBusStationReady(final Map map, ArrayList<Poi> poilist, ArrayList<BusStation> busStations)
+   {
       for (int i = 0; i < poilist.size(); i++)
       {
          final Poi object = poilist.get(i);
