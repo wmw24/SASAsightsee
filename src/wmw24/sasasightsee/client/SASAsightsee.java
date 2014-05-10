@@ -24,24 +24,33 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class SASAsightsee implements EntryPoint
 {
 
-	public final String[] OSM_URL = {
-			"(node[amenity~\"bar|restaurant|cafe|hospital\"](46.46,11.28,46.51,11.35);way[amenity~\"bar|restaurant|cafe|hospital\"](46.46,11.28,46.51,11.35);>);out;",
-			"(node[amenity~\"bar|restaurant|cafe|hospital\"](46.65,11.13,46.68,11.18);way[amenity~\"bar|restaurant|cafe|hospital\"](46.65,11.13,46.68,11.18);>);out;" };
+	public static final String[] OSM_URL = {
+			"(node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];way[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.35)[name];>);out;",
+			"(node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];way[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];>);out;",
+			"(node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];way[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18);>)[name];out;",
+			"(node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35)[name];way[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.35);>)[name];out;" };
+
+	public static int counter = 0;
 
 	@Override
 	public void onModuleLoad()
 	{
-		osmRequest();
+		for (int i = 0; i < OSM_URL.length; ++i)
+		{
+			String url = OSM_URL[i];
+			osmRequest(url);
+		}
 	}
 
-	private static void osmRequest()
+	private static void osmRequest(String query)
 	{
 		final Map map = new Map((com.google.gwt.user.client.Element) Document
 				.get().getElementById("map"));
 		map.addLayer(new OSMLayer());
 		map.setView(new LatLng(46.5733, 11.2321), 10);
 
-		String url = "http://overpass-api.de/api/interpreter?data=[out:json];";
+		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
+				+ query;
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
 		jsonp.setCallbackParam("jsonp");
 
@@ -69,6 +78,7 @@ public class SASAsightsee implements EntryPoint
 						poilist.add(poi);
 					}
 				}
+				++counter;
 				onOSMReady(map, poilist);
 			}
 
@@ -83,6 +93,11 @@ public class SASAsightsee implements EntryPoint
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist)
 	{
+		if (counter != OSM_URL.length)
+		{
+
+		}
+
 		String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
 
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
