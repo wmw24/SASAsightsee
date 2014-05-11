@@ -3,11 +3,9 @@ package wmw24.sasasightsee.client;
 import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.client.leaflet.IconOptions;
 import bz.davide.dmweb.shared.view.ButtonView;
@@ -16,7 +14,6 @@ import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
@@ -52,7 +49,7 @@ public class Popup extends DivView
 		Date date = (Date) currDate.clone();
 		CalendarUtil.addDaysToDate(date, 1);
 		String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
-		String weatherId = nearestWeather(poi.getLat(), poi.getLon());
+		String weatherId = this.nearestWeather(poi.getLat(), poi.getLon());
 
 		ImgView imageView = new ImgView(weather.get(today).getImageURL(
 				weatherId));
@@ -65,7 +62,7 @@ public class Popup extends DivView
 
 		DivView weatherDiv = new DivView("weather");
 
-		DivView todayWeather = new DivView("today");
+		DivView todayWeather = new DivView("today day");
 
 		imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
 		spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
@@ -77,7 +74,7 @@ public class Popup extends DivView
 
 		weatherDiv.appendChild(todayWeather);
 
-		DivView tomorrowWeather = new DivView("tomorrow");
+		DivView tomorrowWeather = new DivView("tomorrow day");
 
 		imageView = new ImgView(weather.get(tomorrow).getImageURL("2"));
 		spanView = new SpanView(weather.get(tomorrow).getDescription("2")
@@ -108,14 +105,14 @@ public class Popup extends DivView
 
 		if (poi.getAttr("wikipedia") != null)
 		{
-			wikireq = new WikipediaTextRequest(poi.getAttr("wikipedia"), this);
+			this.wikireq = new WikipediaTextRequest(poi.getAttr("wikipedia"), this);
 		}
 
 	}
 
 	public void wikipediaReady()
 	{
-		String wikitext = wikireq.getWikitext();
+		String wikitext = this.wikireq.getWikitext();
 		DivView wikidiv = new DivView("wikitext");
 		SpanView wikispan = new SpanView(wikitext);
 		wikidiv.appendChild(wikispan);
@@ -240,7 +237,7 @@ public class Popup extends DivView
 
 	/**
 	 * Returns the nearest weather data index (BZ is the default)
-	 * 
+	 *
 	 * @param lat
 	 * @param lon
 	 * @return Weather data index
