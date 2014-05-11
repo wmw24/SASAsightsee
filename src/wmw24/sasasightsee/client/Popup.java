@@ -4,6 +4,7 @@ import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class Popup extends DivView
 
 	IconOptions iconOptions;
 
+	Date currDate;
+
 	public Popup(Poi poi, ArrayList<BusStation> busStations,
 			Map<String, Weather> weather, Date currDate, IconOptions iconOption)
 	{
@@ -42,6 +45,7 @@ public class Popup extends DivView
 		this.setStyleName("popup");
 		this.appendChild(new SpanView(poi.getName()));
 		this.iconOptions = iconOption;
+		this.currDate = currDate;
 
 		String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(currDate);
 		Date date = (Date) currDate.clone();
@@ -134,9 +138,11 @@ public class Popup extends DivView
 
 					try
 					{
-						SASAbusDBClientImpl.singleton.calcRoute(
-								nearestToYou.getId(),
-								Popup.this.nearestToPoi.getId(), 201405090900L,
+						SimpleDateFormat format = new SimpleDateFormat(
+								"yyyyMMddhhmm");
+						SASAbusDBClientImpl.singleton.calcRoute(nearestToYou
+								.getId(), Popup.this.nearestToPoi.getId(), Long
+								.parseLong(format.format(Popup.this.currDate)),
 								new SASAbusDBDataReady<ConRes>()
 								{
 
