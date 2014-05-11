@@ -9,14 +9,14 @@
 	href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
 <style>
 
-.popup .weather .day
+.detail .weather .day
 {
     width:100px;
 	display:inline-block;
 	margin-right:5px;
 }
 
-.popup .weather .day > *
+.detail .weather .day > *
 {
 	display:block;
 }
@@ -26,7 +26,7 @@
    width:300px;
 }
 
-.popup .bus-name
+.detail .bus-name
 {
 	background-color:#CCCCCC;
 	margin-top:5px;
@@ -69,8 +69,8 @@
 	z-index:2001;
 	width:90%;
 	left:5%;
-	
-	min-height:700px;
+	padding:5px;
+	min-height:400px;
 }
 
 .detailclose
@@ -101,6 +101,16 @@
 	padding:8px;
 	width:12em;
 	cursor: pointer;
+}
+
+.routingresults
+{
+	margin-bottom:20px;
+}
+
+.wikitext
+{
+	font-size:85%;
 }
 
 </style>
