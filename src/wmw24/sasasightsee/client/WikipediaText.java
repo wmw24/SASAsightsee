@@ -14,7 +14,7 @@ public class WikipediaText extends JavaScriptObject
 	}-*/;
 
 	public final native String getText() /*-{
-		return this.parse.title;
+		return this.parse.text;
 	}-*/;
 
 }
