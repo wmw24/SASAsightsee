@@ -476,14 +476,14 @@ public class SASAsightsee implements EntryPoint
 		{
 			final Poi object = poilist.get(i);
 			// Window.alert(object.getType());
-			IconOptions iconOptions = new IconOptions();
+			final IconOptions iconOptions = new IconOptions();
 			// iconSize: [32, 37],
 			// iconAnchor: [16, 37],
 			// popupAnchor: [0, -33],
 			iconOptions.setIconSize(32, 37);
 			iconOptions.setIconAnchor(16, 37);
 			iconOptions.setPopupAnchor(0, -33);
-			int randomInt = Random.nextInt(10);
+			int randomInt = Random.nextInt(15);
 			if (randomInt == 0)
 			{
 				iconOptions
@@ -507,7 +507,7 @@ public class SASAsightsee implements EntryPoint
 				public void onEvent()
 				{
 					Popup popup = new Popup(object, busStations, weather,
-							currDate);
+							currDate, iconOptions);
 					map.openPopup(popup.getElement(), latLng);
 					AbstractHtmlElementView.notifyAttachRecursive(popup);
 				}
