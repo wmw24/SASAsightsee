@@ -34,6 +34,7 @@ public class WikipediaTextRequest
 			{
 				wikitext = response.getText();
 				wikititle = response.getTitle();
+				WikipediaTextRequest.this.callback.wikipediaReady();
 			}
 
 			@Override
@@ -43,7 +44,7 @@ public class WikipediaTextRequest
 				return;
 			}
 		});
-		callback.wikipediaReady();
+
 	}
 
 	public String getWikitext()
