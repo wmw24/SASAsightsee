@@ -47,15 +47,25 @@ public class Popup extends DivView
 		Date date = (Date) currDate.clone();
 		CalendarUtil.addDaysToDate(date, 1);
 		String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
+		String weatherId = nearestWeather(poi.getLat(), poi.getLon());
+
+		ImgView imageView = new ImgView(weather.get(today).getImageURL(
+				weatherId));
+		SpanView spanView = new SpanView(weather.get(today).getDescription(
+				weatherId)
+				+ " - "
+				+ weather.get(today).getTempMin(weatherId)
+				+ "-"
+				+ weather.get(today).getTempMax(weatherId) + "°");
 
 		DivView weatherDiv = new DivView("weather");
 
 		DivView todayWeather = new DivView("today");
 
-		ImgView imageView = new ImgView(weather.get(today).getImageURL("2"));
-		SpanView spanView = new SpanView(weather.get(today).getDescription("2")
-				+ " - " + weather.get(today).getTempMin("2") + "-"
-				+ weather.get(today).getTempMax("2") + "°");
+		imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
+		spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
+				+ " - " + weather.get(tomorrow).getTempMin(weatherId) + "-"
+				+ weather.get(tomorrow).getTempMax(weatherId) + "°");
 
 		todayWeather.appendChild(imageView);
 		todayWeather.appendChild(spanView);
@@ -164,12 +174,12 @@ public class Popup extends DivView
 		}
 	}
 
-	void displayRoute(ConRes conRes)
+	private void displayRoute(ConRes conRes)
 	{
 		this.appendChild(new RouteDetail(conRes));
 	}
 
-	BusStation nearest(double lat, double lon)
+	public BusStation nearest(double lat, double lon)
 	{
 		BusStation best = this.busStations.get(0);
 		for (int i = 1; i < this.busStations.size(); i++)
@@ -205,4 +215,32 @@ public class Popup extends DivView
 		time = timeParts[0] + ":" + timeParts[1];
 		return time;
 	}
+
+	/**
+	 * Returns the nearest weather data index (BZ is the default)
+	 * 
+	 * @param lat
+	 * @param lon
+	 * @return Weather data index
+	 */
+	private String nearestWeather(double lat, double lon)
+	{
+		double distance1 = DistanceCalculator.distanceMeter(
+				SASAsightsee.BZ_LAT, SASAsightsee.BZ_LON, lat, lon);
+		double distance2 = DistanceCalculator.distanceMeter(
+				SASAsightsee.ME_LAT, SASAsightsee.ME_LON, lat, lon);
+		return distance2 < distance1 ? "2" : "3";
+	}
+
+	// static String formatTime(String time)
+	// {
+	// if (time.startsWith("00d"))
+	// {
+	// time = time.substring(3);
+	// }
+	// String[] timeParts = time.split(":");
+	// time = timeParts[0] + ":" + timeParts[1];
+	// return time;
+	// }
+
 }
