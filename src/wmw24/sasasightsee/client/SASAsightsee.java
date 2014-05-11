@@ -5,6 +5,7 @@ import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
@@ -165,6 +166,7 @@ public class SASAsightsee implements EntryPoint
 						"//" + node
 								+ "/stationData[Id=3]/temperature/min/text()")
 						.toString();
+				
 				weather.setDescription("3",
 						wDescription.substring(1, wDescription.length() - 1));
 				weather.setImageURL("3",
@@ -182,6 +184,40 @@ public class SASAsightsee implements EntryPoint
 						.toString().substring(1).split("T")[0];
 				weatherMap.put(wDate, weather);
 			}
+			
+			private void fetchWeatherForecast(com.google.gwt.xml.client.Document xmldoc,
+					java.util.Map<String, Weather> weatherMap)
+			{
+				List<com.google.gwt.xml.client.Node> forecasts = XPath.evaluate(xmldoc, "//dayForecast");
+				for (int i = 1; i <= forecasts.size(); i++) {
+					String wDescription = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/symbol/description/text()")
+							.toString();
+					String wImageURL = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/symbol/imageURL/text()")
+							.toString();
+					String wTempMax = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/tempMax/max/text()")
+							.toString();
+					String wTempMin = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/tempMin/max/text()")
+							.toString();
+					
+					Weather weather = new Weather();
+					weather.setDescription(null,
+							wDescription.substring(1, wDescription.length() - 1));
+					weather.setImageURL(null,
+							wImageURL.substring(1, wImageURL.length() - 1));
+					weather.setTempMax(
+							null,
+							Integer.parseInt(wTempMax.substring(1,
+									wTempMax.length() - 1)));
+					weather.setTempMin(
+							null,
+							Integer.parseInt(wTempMin.substring(1,
+									wTempMin.length() - 1)));
+					
+					String wDate = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/date/text()")
+							.toString().substring(1).split("T")[0];
+					weatherMap.put(wDate, weather);
+				}
+			}
 
 			@Override
 			public void onResponseReceived(Request request, Response response)
@@ -197,6 +233,7 @@ public class SASAsightsee implements EntryPoint
 
 				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
 				fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
+				fetchWeatherForecast(xmldoc, weatherMap);
 
 				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
