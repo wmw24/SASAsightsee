@@ -98,21 +98,21 @@ public class SASAsightsee implements EntryPoint
 				String wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/max/text()").toString();
 				String wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/min/text()").toString();
 				Weather weather = new Weather();
-				weather.setDescription("2", wDescription);
-				weather.setImageURL("2", wImageURL);
-				weather.setTempMax("2", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 2)));
-				weather.setTempMin("2", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 2)));
+				weather.setDescription("2", wDescription.substring(1, wDescription.length() - 1));
+				weather.setImageURL("2", wImageURL.substring(1, wImageURL.length() - 1));
+				weather.setTempMax("2", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 1)));
+				weather.setTempMin("2", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 1)));
 				// fetch weather for Bz
 				wDescription = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/description/text()").toString();
 				wImageURL = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/imageURL/text()").toString();
 				wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/max/text()").toString();
 				wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/min/text()").toString();
-				weather.setDescription("3", wDescription);
-				weather.setImageURL("3", wImageURL);
-				weather.setTempMax("3", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 2)));
-				weather.setTempMin("3", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 2)));
-				String wDate = XPath.evaluate(xmldoc, "//" + node + "/date/text()").toString().split("T")[0];
-				weatherMap.put(wDate, weather);				
+				weather.setDescription("3", wDescription.substring(1, wDescription.length() - 1));
+				weather.setImageURL("3", wImageURL.substring(1, wImageURL.length() - 1));
+				weather.setTempMax("3", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 1)));
+				weather.setTempMin("3", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 1)));
+				String wDate = XPath.evaluate(xmldoc, "//" + node + "/date/text()").toString().substring(1).split("T")[0];
+				weatherMap.put(wDate, weather);
 			}
 			
 			@Override
