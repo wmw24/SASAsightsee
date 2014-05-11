@@ -12,6 +12,7 @@ import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.SpanView;
 
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -49,7 +50,11 @@ public class Popup extends DivView
 				body.appendChild(element);
 				AbstractHtmlElementView.notifyAttachRecursive(detailOverlay);
 
-				startTwitter();
+				// startTwitter();
+
+				ScriptInjector
+						.fromUrl("http://platform.twitter.com/widgets.js")
+						.inject();
 
 				detailOverlay.dateBox.getDateBox().getGwtDateBox()
 						.addValueChangeHandler(new ValueChangeHandler<Date>()
