@@ -17,7 +17,6 @@ import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Node;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayNumber;
@@ -31,7 +30,6 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.XMLParser;
 import com.mouchel.gwt.xpath.client.XPath;
 
