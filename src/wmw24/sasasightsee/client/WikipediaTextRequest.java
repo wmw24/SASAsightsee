@@ -14,9 +14,9 @@ public class WikipediaTextRequest
 
 	String wikititle;
 
-	Popup callback;
+	DetailOverlay callback;
 
-	public WikipediaTextRequest(String site, Popup callback)
+	public WikipediaTextRequest(String site, DetailOverlay callback)
 	{
 		this.site = site;
 		this.callback = callback;
