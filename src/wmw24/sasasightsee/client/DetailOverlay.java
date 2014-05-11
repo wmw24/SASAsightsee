@@ -141,8 +141,7 @@ public class DetailOverlay extends DivView
 
 		this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 
-		HTML html = new HTML(
-				"<a class=\"twitter-timeline\"  href=\"https://twitter.com/search?q=%23angelhackrules\"  data-widget-id=\"465401704247074816\">Tweets über \"#angelhackrules\"</a><script>twitterfunction()</script>");
+		HTML html = new HTML();
 		this.detail.getElement().appendChild(html.getElement());
 
 		if (poi.getAttr("wikipedia") != null)
