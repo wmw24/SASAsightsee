@@ -32,7 +32,7 @@ public class WikipediaTextRequest
 			@Override
 			public void onSuccess(WikipediaText response)
 			{
-				wikitext = response.getText().substring(0, 689);
+				wikitext = response.getText();
 				wikititle = response.getTitle();
 				WikipediaTextRequest.this.callback.wikipediaReady();
 			}
