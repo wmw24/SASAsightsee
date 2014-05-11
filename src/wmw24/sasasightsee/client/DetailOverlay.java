@@ -4,9 +4,11 @@ import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 import it.bz.tis.sasabus.html5.shared.ui.SASAbusDateBox;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 import bz.davide.dmweb.shared.view.ButtonView;
@@ -15,6 +17,7 @@ import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -124,9 +127,8 @@ public class DetailOverlay extends DivView
 
 		this.detail.appendChild(weatherDiv);
 
-      this.dateBox = new SASAbusDateBox();
-      this.detail.appendChild(this.dateBox);
-
+		this.dateBox = new SASAbusDateBox();
+		this.detail.appendChild(this.dateBox);
 
 		this.buttonView = new ButtonView("With bus here");
 		this.detail.appendChild(this.buttonView);
@@ -145,11 +147,12 @@ public class DetailOverlay extends DivView
 
 		this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 
-		HTML html = new HTML();
-		this.detail.getElement().appendChild(html.getElement());
-
 		if (poi.getAttr("wikipedia") != null)
 		{
+			HTML html = new HTML(
+					"<a class=\"twitter-timeline\"  href=\"https://twitter.com/search?q=%23angelhackrules\"  data-widget-id=\"465401704247074816\">Tweets über \"#angelhackrules\"</a>");
+			this.detail.getElement().appendChild(html.getElement());
+
 			this.wikireq = new WikipediaTextRequest(poi.getAttr("wikipedia"),
 					this);
 		}
@@ -257,7 +260,7 @@ public class DetailOverlay extends DivView
 
 	/**
 	 * Returns the nearest weather data index (BZ is the default)
-	 *
+	 * 
 	 * @param lat
 	 * @param lon
 	 * @return Weather data index
