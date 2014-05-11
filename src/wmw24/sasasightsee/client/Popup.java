@@ -115,7 +115,10 @@ public class Popup extends DivView
 
 	public void wikipediaReady()
 	{
-		SpanView wikispan = new SpanView(wikireq.wikitext);
+		String wikitext = wikireq.getWikitext();
+		SpanView wikispan = new SpanView(wikitext.substring(0,
+				wikitext.indexOf(" ", 200))
+				+ "...");
 		this.appendChild(wikispan);
 	}
 
