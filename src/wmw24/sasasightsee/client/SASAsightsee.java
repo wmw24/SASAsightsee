@@ -1,12 +1,10 @@
 package wmw24.sasasightsee.client;
 
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import bz.davide.dmweb.client.leaflet.EventListener;
 import bz.davide.dmweb.client.leaflet.Icon;
 import bz.davide.dmweb.client.leaflet.IconOptions;
@@ -16,20 +14,18 @@ import bz.davide.dmweb.client.leaflet.Marker;
 import bz.davide.dmweb.client.leaflet.MarkerOptions;
 import bz.davide.dmweb.client.leaflet.OSMLayer;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.XMLParser;
 import com.mouchel.gwt.xpath.client.XPath;
@@ -83,6 +79,11 @@ public class SASAsightsee implements EntryPoint
 				.get().getElementById("map"));
 		map.addLayer(new OSMLayer());
 		map.setView(new LatLng(46.5733, 11.2321), 10);
+
+		Menu menu = new Menu();
+		Element body = Document.get().getElementsByTagName("body").getItem(0);
+      body.appendChild(menu.getElement());
+      AbstractHtmlElementView.notifyAttachRecursive(menu);
 
 		try
 		{
@@ -167,7 +168,7 @@ public class SASAsightsee implements EntryPoint
 						"//" + node
 								+ "/stationData[Id=3]/temperature/min/text()")
 						.toString();
-				
+
 				weather.setDescription("3",
 						wDescription.substring(1, wDescription.length() - 1));
 				weather.setImageURL("3",
@@ -185,7 +186,7 @@ public class SASAsightsee implements EntryPoint
 						.toString().substring(1).split("T")[0];
 				weatherMap.put(wDate, weather);
 			}
-			
+
 			private void fetchWeatherForecast(com.google.gwt.xml.client.Document xmldoc,
 					java.util.Map<String, Weather> weatherMap)
 			{
@@ -199,7 +200,7 @@ public class SASAsightsee implements EntryPoint
 							.toString();
 					String wTempMin = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/tempMin/max/text()")
 							.toString();
-					
+
 					Weather weather = new Weather();
 					weather.setDescription(null,
 							wDescription.substring(1, wDescription.length() - 1));
@@ -213,7 +214,7 @@ public class SASAsightsee implements EntryPoint
 							null,
 							Integer.parseInt(wTempMin.substring(1,
 									wTempMin.length() - 1)));
-					
+
 					String wDate = XPath.evaluate(xmldoc, "//dayForecast[" + i + "]/date/text()")
 							.toString().substring(1).split("T")[0];
 					weatherMap.put(wDate, weather);
@@ -234,9 +235,9 @@ public class SASAsightsee implements EntryPoint
 //						currDateStr);
 				Date currDate = new Date();
 
-				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
-				fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
-				fetchWeatherForecast(xmldoc, weatherMap);
+				this.fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
+				this.fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
+				this.fetchWeatherForecast(xmldoc, weatherMap);
 
 				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
