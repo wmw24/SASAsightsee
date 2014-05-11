@@ -17,6 +17,7 @@ import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -35,11 +36,15 @@ import com.mouchel.gwt.xpath.client.XPath;
 public class SASAsightsee implements EntryPoint
 {
 
-	public static final String[] OSM_URL = {
+	public static final String[] OSM_NODE_URL = {
 			"node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.37)[name];out;",
 			"node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];out;",
 			"node[tourism~\"artwork|museum|attraction\"](46.65,11.13,46.68,11.18)[name];out;",
 			"node[tourism~\"artwork|museum|attraction\"](46.46,11.28,46.51,11.37)[name];out;" };
+
+	public static final String[] OSM_WAY_URL = {
+			"(way[tourism~\"artwork|museum|attraction\"](46.65,11.13,46.68,11.18)[name];>);out;",
+			"(way[tourism~\"artwork|museum|attraction\"](46.46,11.28,46.51,11.37)[name];>);out;" };
 
 	/*
 	 * public static final String[] OSM_URL = {
@@ -181,10 +186,15 @@ public class SASAsightsee implements EntryPoint
 
 				ArrayList<Poi> poilist = new ArrayList<Poi>();
 
-				for (int i = 0; i < OSM_URL.length; ++i)
+				for (int i = 0; i < OSM_NODE_URL.length; ++i)
 				{
-					String url = OSM_URL[i];
-					osmRequest(map, url, weatherMap, poilist);
+					String url = OSM_NODE_URL[i];
+					osmNodeRequest(map, url, weatherMap, poilist);
+				}
+				for (int i = 0; i < OSM_WAY_URL.length; ++i)
+				{
+					String url = OSM_WAY_URL[i];
+					osmWayRequest(map, url, weatherMap, poilist);
 				}
 			}
 
@@ -197,7 +207,7 @@ public class SASAsightsee implements EntryPoint
 		});
 	}
 
-	private static void osmRequest(final Map map, String query,
+	private static void osmNodeRequest(final Map map, String query,
 			final java.util.Map<String, Weather> weather,
 			final ArrayList<Poi> poilist)
 	{
@@ -207,7 +217,7 @@ public class SASAsightsee implements EntryPoint
 		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
 		jsonp.setCallbackParam("jsonp");
 
-		jsonp.requestObject(url, new AsyncCallback<OSMResponse>()
+		jsonp.requestObject(url, new AsyncCallback<OSMNodeResponse>()
 		{
 
 			@Override
@@ -218,7 +228,7 @@ public class SASAsightsee implements EntryPoint
 			}
 
 			@Override
-			public void onSuccess(OSMResponse response)
+			public void onSuccess(OSMNodeResponse response)
 			{
 
 				JsArray<OSMNode> elements = response.getElements();
@@ -233,7 +243,15 @@ public class SASAsightsee implements EntryPoint
 						poi.setLat(object.getLat());
 						poi.setLon(object.getLon());
 						poi.setName(object.getTags().getName());
-						poi.setAmenity(object.getTags().getAmenity());
+						if (object.getTags().getAmenity().toString()
+								.equals("undefined"))
+						{
+							poi.setAmenity(object.getTags().getTourism());
+						}
+						else
+						{
+							poi.setAmenity(object.getTags().getAmenity());
+						}
 
 						if (poi.getName().equals(
 								"Messner Mountain Museum Firmian"))
@@ -270,7 +288,7 @@ public class SASAsightsee implements EntryPoint
 					}
 				}
 				++counter;
-				if (counter == OSM_URL.length)
+				if (counter == OSM_WAY_URL.length + OSM_NODE_URL.length)
 				{
 					onOSMReady(map, poilist, weather);
 				}
@@ -279,6 +297,117 @@ public class SASAsightsee implements EntryPoint
 
 		});
 
+	}
+
+	private static void osmWayRequest(final Map map, String query,
+			final java.util.Map<String, Weather> weather,
+			final ArrayList<Poi> poilist)
+	{
+		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
+				+ query;
+
+		JsonpRequestBuilder jsonp = new JsonpRequestBuilder();
+		jsonp.setCallbackParam("jsonp");
+
+		jsonp.requestObject(url, new AsyncCallback<OSMWayResponse>()
+		{
+
+			@Override
+			public void onFailure(Throwable caught)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(OSMWayResponse response)
+			{
+
+				JsArray<OSMWay> elements = response.getElements();
+				// Window.alert(elements.length() + " Object read from OSM");
+				for (int i = 0; i < elements.length(); i++)
+				{
+					OSMWay object = elements.get(i);
+					if (object.getType().equals("way")
+							&& object.getTags() != null)
+					{
+						Poi poi = new Poi();
+						poi.setName(object.getTags().getName());
+						JsArrayInteger nodelist = object.getNodes();
+						double sumlat = 0, sumlon = 0;
+						int count = 0;
+						for (int j = 0; j < nodelist.length(); ++j)
+						{
+							int nodeid = nodelist.get(j);
+							for (int m = 0; m < elements.length(); ++m)
+							{
+								OSMWay nodeelement = elements.get(m);
+								if (Integer.toString(nodeid).equals(
+										nodeelement.getId()))
+								{
+									sumlat += nodeelement.getLat();
+									sumlon += nodeelement.getLon();
+									++count;
+								}
+							}
+
+						}
+						if (object.getTags().getAmenity().toString()
+								.equals("undefined"))
+						{
+							poi.setAmenity(object.getTags().getTourism());
+						}
+						else
+						{
+							poi.setAmenity(object.getTags().getAmenity());
+						}
+
+						poi.setLat(sumlat / count);
+						poi.setLon(sumlon / count);
+
+						if (poi.getName().equals(
+								"Messner Mountain Museum Firmian"))
+						{
+							poi.setAttr("addrCity", object.getTags()
+									.getAddrCity());
+							poi.setAttr("addrCountry", object.getTags()
+									.getAddrCountry());
+							poi.setAttr("addrHousename", object.getTags()
+									.getAddrHousename());
+							poi.setAttr("addrHousename:de", object.getTags()
+									.getAddrHouseNameDe());
+							poi.setAttr("addrHousename:it", object.getTags()
+									.getAddrHouseNameIt());
+							poi.setAttr("addrHousenumber", object.getTags()
+									.getAddrHousenumber());
+							poi.setAttr("addrPostcode", object.getTags()
+									.getAddrPostcode());
+							poi.setAttr("addrStreet", object.getTags()
+									.getAddrStreet());
+							poi.setAttr("email", object.getTags().getEmail());
+							poi.setAttr("fax", object.getTags().getFax());
+							poi.setAttr("operator", object.getTags()
+									.getOperator());
+							poi.setAttr("phone", object.getTags().getPhone());
+							poi.setAttr("webseite", object.getTags()
+									.getWebsite());
+							poi.setAttr("wikipedia", object.getTags()
+									.getWikipedia());
+							poi.setAttr("wheelchair", object.getTags()
+									.getWheelchair());
+						}
+						poilist.add(poi);
+					}
+				}
+				++counter;
+				if (counter == OSM_WAY_URL.length + OSM_NODE_URL.length)
+				{
+					onOSMReady(map, poilist, weather);
+				}
+
+			}
+
+		});
 	}
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist,

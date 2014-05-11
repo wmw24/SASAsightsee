@@ -3,10 +3,10 @@ package wmw24.sasasightsee.client;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
-public class OSMResponse extends JavaScriptObject
+public class OSMNodeResponse extends JavaScriptObject
 {
 
-	protected OSMResponse()
+	protected OSMNodeResponse()
 	{
 
 	}

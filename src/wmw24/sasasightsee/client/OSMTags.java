@@ -17,6 +17,10 @@ public class OSMTags extends JavaScriptObject
 		return this.amenity;
 	}-*/;
 
+	public final native String getTourism() /*-{
+		return this.tourism;
+	}-*/;
+
 	public final native String getAddrCity() /*-{
 		return this.addrcity;
 	}-*/;
