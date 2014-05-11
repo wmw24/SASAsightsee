@@ -60,6 +60,11 @@ public class SASAsightsee implements EntryPoint
 	 * };
 	 */
 	public static int counter = 0;
+	
+	/**
+	 * The current date (used for the whole app)
+	 */
+	public static Date currDate = new Date();
 
 	// Bz position (from http://tools.wmflabs.org/geohack/geohack.php) - for
 	// weather
@@ -231,9 +236,9 @@ public class SASAsightsee implements EntryPoint
 // FOR TESTING: use date from weather service
 //				String currDateStr = XPath.evaluate(xmldoc, "//date/text()")
 //						.toString().substring(1).split("T")[0];
-//				Date currDate = DateTimeFormat.getFormat("yyyy-MM-dd").parse(
+//				currDate = DateTimeFormat.getFormat("yyyy-MM-dd").parse(
 //						currDateStr);
-				Date currDate = new Date();
+				currDate = new Date();
 
 				this.fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
 				this.fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);
@@ -244,12 +249,12 @@ public class SASAsightsee implements EntryPoint
 				for (int i = 0; i < OSM_NODE_URL.length; ++i)
 				{
 					String url = OSM_NODE_URL[i];
-					osmNodeRequest(map, url, weatherMap, currDate, poilist);
+					osmNodeRequest(map, url, weatherMap, poilist);
 				}
 				for (int i = 0; i < OSM_WAY_URL.length; ++i)
 				{
 					String url = OSM_WAY_URL[i];
-					osmWayRequest(map, url, weatherMap, currDate, poilist);
+					osmWayRequest(map, url, weatherMap, poilist);
 
 				}
 			}
@@ -264,7 +269,7 @@ public class SASAsightsee implements EntryPoint
 	}
 
 	private static void osmNodeRequest(final Map map, String query,
-			final java.util.Map<String, Weather> weather, final Date currDate,
+			final java.util.Map<String, Weather> weather,
 			final ArrayList<Poi> poilist)
 	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
@@ -347,7 +352,7 @@ public class SASAsightsee implements EntryPoint
 				++counter;
 				if (counter == OSM_WAY_URL.length + OSM_NODE_URL.length)
 				{
-					onOSMReady(map, poilist, weather, currDate);
+					onOSMReady(map, poilist, weather);
 				}
 
 			}
@@ -357,7 +362,7 @@ public class SASAsightsee implements EntryPoint
 	}
 
 	private static void osmWayRequest(final Map map, String query,
-			final java.util.Map<String, Weather> weather, final Date currDate,
+			final java.util.Map<String, Weather> weather,
 			final ArrayList<Poi> poilist)
 	{
 		String url = "http://overpass-api.de/api/interpreter?data=[out:json];"
@@ -429,7 +434,7 @@ public class SASAsightsee implements EntryPoint
 				++counter;
 				if (counter == OSM_WAY_URL.length + OSM_NODE_URL.length)
 				{
-					onOSMReady(map, poilist, weather, currDate);
+					onOSMReady(map, poilist, weather);
 				}
 
 			}
@@ -438,7 +443,7 @@ public class SASAsightsee implements EntryPoint
 	}
 
 	private static void onOSMReady(final Map map, final ArrayList<Poi> poilist,
-			final java.util.Map<String, Weather> weather, final Date currDate)
+			final java.util.Map<String, Weather> weather)
 	{
 
 		String url = "http://opensasa.info/SASAplandata/getData.php?type=REC_ORT";
@@ -458,7 +463,7 @@ public class SASAsightsee implements EntryPoint
 				{
 					busStations.add(response.get(i));
 				}
-				onBusStationReady(map, poilist, busStations, weather, currDate);
+				onBusStationReady(map, poilist, busStations, weather);
 			}
 
 			@Override
@@ -472,7 +477,7 @@ public class SASAsightsee implements EntryPoint
 
 	private static void onBusStationReady(final Map map,
 			ArrayList<Poi> poilist, final ArrayList<BusStation> busStations,
-			final java.util.Map<String, Weather> weather, final Date currDate)
+			final java.util.Map<String, Weather> weather)
 	{
 		for (int i = 0; i < poilist.size(); i++)
 		{
@@ -509,7 +514,7 @@ public class SASAsightsee implements EntryPoint
 				public void onEvent()
 				{
 					Popup popup = new Popup(object, busStations, weather,
-							currDate, iconOptions);
+							iconOptions);
 					map.openPopup(popup.getElement(), latLng);
 					AbstractHtmlElementView.notifyAttachRecursive(popup);
 				}

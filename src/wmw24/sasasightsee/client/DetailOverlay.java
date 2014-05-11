@@ -35,8 +35,6 @@ public class DetailOverlay extends DivView
 
 	BusStation nearestToPoi;
 
-	Date currDate;
-
 	WikipediaTextRequest wikireq;
 
 	private DivView detail;
@@ -46,10 +44,9 @@ public class DetailOverlay extends DivView
 	SASAbusDateBox dateBox;
 
 	public DetailOverlay(Poi poi, ArrayList<BusStation> busStations,
-			Map<String, Weather> weather, Date currDate)
+			Map<String, Weather> weather)
 	{
 		this.busStations = busStations;
-		this.currDate = currDate;
 
 		DivView background = new DivView("detailbackground");
 		this.appendChild(background);
@@ -76,8 +73,9 @@ public class DetailOverlay extends DivView
 		background.addClickHandler(closeHandler);
 
 		// Content!
-		String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(currDate);
-		Date date = CalendarUtil.copyDate(currDate);
+		String today = DateTimeFormat.getFormat("yyyy-MM-dd")
+				.format(SASAsightsee.currDate);
+		Date date = CalendarUtil.copyDate(SASAsightsee.currDate);
 		CalendarUtil.addDaysToDate(date, 1);
 		String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
 		String weatherId = this.nearestWeather(poi.getLat(), poi.getLon());
@@ -192,7 +190,7 @@ public class DetailOverlay extends DivView
 								DetailOverlay.this.nearestToPoi.getId(),
 								Long.parseLong(DateTimeFormat.getFormat(
 										"yyyyMMddhhmm").format(
-										DetailOverlay.this.currDate)),
+										SASAsightsee.currDate)),
 								new SASAbusDBDataReady<ConRes>()
 								{
 
