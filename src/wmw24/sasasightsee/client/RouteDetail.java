@@ -24,7 +24,7 @@ public class RouteDetail extends DivView
 			DivView busName = new DivView("bus-name");
 			if (conSection.getWalks().length > 0)
 			{
-				ImgView walkimage = new ImgView("./images/walk.png", "Walk");
+				ImgView walkimage = new ImgView("./images/walking.png", "Walk");
 				busName.appendChild(walkimage);
 				busName.appendChild(new SpanView(formatTime(conSection
 						.getWalks()[0].getDuration().getTime())));
@@ -41,6 +41,7 @@ public class RouteDetail extends DivView
 			}
 			this.appendChild(newRow(time, basicStop[0].getStation().getName()));
 			ImgView busimage = new ImgView("./images/bus.png", "Bus");
+			busName.appendChild(busimage);
 			busName.appendChild(new SpanView(conSection.getJourneys()[0]
 					.getBusLineNumber()));
 			this.appendChild(busName);
