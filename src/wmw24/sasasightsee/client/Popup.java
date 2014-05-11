@@ -60,7 +60,7 @@ public class Popup extends DivView
 							public void onValueChange(
 									ValueChangeEvent<Date> event)
 							{
-								Window.alert("New date " + event.getValue());
+								SASAsightsee.currDate = event.getValue();
 							}
 						});
 			}
