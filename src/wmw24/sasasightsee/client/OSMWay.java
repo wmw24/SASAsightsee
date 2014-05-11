@@ -1,7 +1,7 @@
 package wmw24.sasasightsee.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayNumber;
 
 public class OSMWay extends JavaScriptObject
 {
@@ -14,7 +14,7 @@ public class OSMWay extends JavaScriptObject
 		return this.type;
 	}-*/;
 
-	public final native String getId() /*-{
+	public final native double getId() /*-{
 		return this.id;
 	}-*/;
 
@@ -26,7 +26,7 @@ public class OSMWay extends JavaScriptObject
 		return this.lon;
 	}-*/;
 
-	public final native JsArrayInteger getNodes() /*-{
+	public final native JsArrayNumber getNodes() /*-{
 		return this.nodes;
 	}-*/;
 

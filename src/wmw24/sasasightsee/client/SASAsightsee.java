@@ -17,7 +17,7 @@ import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -243,8 +243,9 @@ public class SASAsightsee implements EntryPoint
 						poi.setLat(object.getLat());
 						poi.setLon(object.getLon());
 						poi.setName(object.getTags().getName());
-						if (object.getTags().getAmenity().toString()
-								.equals("undefined"))
+						if (object.getTags().getAmenity() == null
+								|| object.getTags().getAmenity().toString()
+										.equals("undefined"))
 						{
 							poi.setAmenity(object.getTags().getTourism());
 						}
@@ -333,27 +334,31 @@ public class SASAsightsee implements EntryPoint
 					{
 						Poi poi = new Poi();
 						poi.setName(object.getTags().getName());
-						JsArrayInteger nodelist = object.getNodes();
+						JsArrayNumber nodelist = object.getNodes();
 						double sumlat = 0, sumlon = 0;
 						int count = 0;
 						for (int j = 0; j < nodelist.length(); ++j)
 						{
-							int nodeid = nodelist.get(j);
+							double nodeid = nodelist.get(j);
 							for (int m = 0; m < elements.length(); ++m)
 							{
 								OSMWay nodeelement = elements.get(m);
-								if (Integer.toString(nodeid).equals(
-										nodeelement.getId()))
+								if (nodeelement.getType().equals("node")
+										&& nodeid == nodeelement.getId())
 								{
 									sumlat += nodeelement.getLat();
 									sumlon += nodeelement.getLon();
 									++count;
+									break;
 								}
 							}
 
 						}
-						if (object.getTags().getAmenity().toString()
-								.equals("undefined"))
+						poi.setLat(sumlat / count);
+						poi.setLon(sumlon / count);
+						if (object.getTags().getAmenity() == null
+								|| object.getTags().getAmenity().toString()
+										.equals("undefined"))
 						{
 							poi.setAmenity(object.getTags().getTourism());
 						}
@@ -362,40 +367,6 @@ public class SASAsightsee implements EntryPoint
 							poi.setAmenity(object.getTags().getAmenity());
 						}
 
-						poi.setLat(sumlat / count);
-						poi.setLon(sumlon / count);
-
-						if (poi.getName().equals(
-								"Messner Mountain Museum Firmian"))
-						{
-							poi.setAttr("addrCity", object.getTags()
-									.getAddrCity());
-							poi.setAttr("addrCountry", object.getTags()
-									.getAddrCountry());
-							poi.setAttr("addrHousename", object.getTags()
-									.getAddrHousename());
-							poi.setAttr("addrHousename:de", object.getTags()
-									.getAddrHouseNameDe());
-							poi.setAttr("addrHousename:it", object.getTags()
-									.getAddrHouseNameIt());
-							poi.setAttr("addrHousenumber", object.getTags()
-									.getAddrHousenumber());
-							poi.setAttr("addrPostcode", object.getTags()
-									.getAddrPostcode());
-							poi.setAttr("addrStreet", object.getTags()
-									.getAddrStreet());
-							poi.setAttr("email", object.getTags().getEmail());
-							poi.setAttr("fax", object.getTags().getFax());
-							poi.setAttr("operator", object.getTags()
-									.getOperator());
-							poi.setAttr("phone", object.getTags().getPhone());
-							poi.setAttr("webseite", object.getTags()
-									.getWebsite());
-							poi.setAttr("wikipedia", object.getTags()
-									.getWikipedia());
-							poi.setAttr("wheelchair", object.getTags()
-									.getWheelchair());
-						}
 						poilist.add(poi);
 					}
 				}
