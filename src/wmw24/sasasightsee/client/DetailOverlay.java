@@ -85,7 +85,7 @@ public class DetailOverlay extends DivView
 	
 			ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
 			SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
-					+ " - " + weather.get(today).getTempMin(weatherId) + ".."
+					+ ", " + weather.get(today).getTempMin(weatherId) + ".."
 					+ weather.get(today).getTempMax(weatherId) + "°");
 	
 			todayWeather.appendChild(imageView);
@@ -98,7 +98,7 @@ public class DetailOverlay extends DivView
 	
 			ImgView imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
 			SpanView spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
-					+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
+					+ ", " + weather.get(tomorrow).getTempMin(weatherId) + ".."
 					+ weather.get(tomorrow).getTempMax(weatherId) + "°");
 	
 			tomorrowWeather.appendChild(imageView);
