@@ -8,8 +8,6 @@ import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
 
-import com.google.gwt.user.client.ui.HTML;
-
 public class RouteDetail extends DivView
 {
 
@@ -20,8 +18,6 @@ public class RouteDetail extends DivView
 		Connection connection = conRes.getConnectionList().getConnections()[0];
 
 		this.addStyleName("bus-trip-detail");
-		HTML html = new HTML("<hr />");
-		this.getElement().appendChild(html.getElement());
 		for (ConSection conSection : connection.getConSectionList()
 				.getConSections())
 		{
@@ -33,8 +29,6 @@ public class RouteDetail extends DivView
 				busName.appendChild(new SpanView(formatTime(conSection
 						.getWalks()[0].getDuration().getTime())));
 				this.appendChild(busName);
-				html = new HTML("<hr />");
-				this.getElement().appendChild(html.getElement());
 				continue;
 			}
 
@@ -58,8 +52,6 @@ public class RouteDetail extends DivView
 			}
 			this.appendChild(newRow(time, basicStop[basicStop.length - 1]
 					.getStation().getName()));
-			html = new HTML("<hr />");
-			this.getElement().appendChild(html.getElement());
 		}
 		DivView busName = new DivView("bus-name");
 		// busName.appendChild(Icon.newRouteEndIcon());
