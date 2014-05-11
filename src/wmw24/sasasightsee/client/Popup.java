@@ -4,8 +4,11 @@ package wmw24.sasasightsee.client;
 import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
+
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.shared.view.ButtonView;
 import bz.davide.dmweb.shared.view.DMClickEvent;
@@ -13,49 +16,60 @@ import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
 import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 public class Popup extends DivView
 {
    ButtonView            buttonView;
    ArrayList<BusStation> busStations;
-   Map<String, Weather> weather;
 
    BusStation            nearestToPoi;
 
-   public Popup(Poi poi, ArrayList<BusStation> busStations, Map<String, Weather> weather)
+   public Popup(Poi poi, ArrayList<BusStation> busStations, Map<String, Weather> weather,
+		   Date currDate)
    {
       this.busStations = busStations;
-      this.weather = weather;
       this.setStyleName("popup");
       this.appendChild(new SpanView(poi.getName()));
 
+      String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(currDate);
+      Date date = (Date)currDate.clone();
+      CalendarUtil.addDaysToDate(date, 1);
+      String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);      
+      
       DivView weatherDiv = new DivView("weather");
 
-      DivView today = new DivView("today day");
+      DivView todayWeather = new DivView("today");
+      
+      ImgView imageView = new ImgView(weather.get(today).getImageURL("2"));
+      SpanView spanView = new SpanView(weather.get(today).getDescription("2")
+    		  + " - " + weather.get(today).getTempMin("2") + "-"
+    		  + weather.get(today).getTempMax("2") + "°");
+      
+      todayWeather.appendChild(imageView);
+      todayWeather.appendChild(spanView);
 
-      ImgView imageView = new ImgView("http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png");
-      SpanView spanView = new SpanView("Nuvoloso, piogge moderate");
+      weatherDiv.appendChild(todayWeather);
 
-      today.appendChild(imageView);
-      today.appendChild(spanView);
+      DivView tomorrowWeather = new DivView("tomorrow");
 
-      weatherDiv.appendChild(today);
+      imageView = new ImgView(weather.get(tomorrow).getImageURL("2"));
+      spanView = new SpanView(weather.get(tomorrow).getDescription("2")
+    		  + " - " + weather.get(tomorrow).getTempMin("2") + "-"
+    		  + weather.get(tomorrow).getTempMax("2") + "°");
 
-      DivView tomorrow = new DivView("tomorow day");
+      tomorrowWeather.appendChild(imageView);
+      tomorrowWeather.appendChild(spanView);
 
-      imageView = new ImgView("http://www.provinz.bz.it/wetter/imgsource/wetter/icon_6.png");
-      spanView = new SpanView("Nuvoloso, piogge moderate");
-
-      tomorrow.appendChild(imageView);
-      tomorrow.appendChild(spanView);
-
-      weatherDiv.appendChild(tomorrow);
+      weatherDiv.appendChild(tomorrowWeather);
 
       this.appendChild(weatherDiv);
 
