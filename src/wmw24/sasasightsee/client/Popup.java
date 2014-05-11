@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Map;
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.client.leaflet.IconOptions;
+import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 import bz.davide.dmweb.shared.view.ButtonView;
 import bz.davide.dmweb.shared.view.DMClickEvent;
 import bz.davide.dmweb.shared.view.DMClickHandler;
@@ -15,6 +16,8 @@ import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
 import com.google.gwt.geolocation.client.Position;
@@ -46,6 +49,21 @@ public class Popup extends DivView
 		this.iconOptions = iconOption;
 		this.currDate = currDate;
 
+		ButtonView more = new ButtonView("more");
+		this.appendChild(more);
+		more.addClickHandler(new DMClickHandler()
+      {
+         @Override
+         public void onClick(DMClickEvent event)
+         {
+            Element body = Document.get().getElementsByTagName("body").getItem(0);
+            DetailOverlay detailOverlay = new DetailOverlay();
+            com.google.gwt.user.client.Element element = detailOverlay.getElement();
+            body.appendChild(element);
+            AbstractHtmlElementView.notifyAttachRecursive(detailOverlay);
+         }
+      });
+
 		String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(currDate);
 		Date date = (Date) currDate.clone();
 		CalendarUtil.addDaysToDate(date, 1);
@@ -54,29 +72,33 @@ public class Popup extends DivView
 
 		DivView weatherDiv = new DivView("weather");
 
-		DivView todayWeather = new DivView("today day");
-
-		ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
-		SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
-				+ " - " + weather.get(today).getTempMin(weatherId) + ".."
-				+ weather.get(today).getTempMax(weatherId) + "°");
-
-		todayWeather.appendChild(imageView);
-		todayWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(todayWeather);
-
-		DivView tomorrowWeather = new DivView("tomorrow day");
-
-		imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
-		spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
-				+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
-				+ weather.get(tomorrow).getTempMax(weatherId) + "°");
-
-		tomorrowWeather.appendChild(imageView);
-		tomorrowWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(tomorrowWeather);
+		// only display weather if it is available
+		if (weather.containsKey(today)) {
+			DivView todayWeather = new DivView("today day");
+	
+			ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
+					+ " - " + weather.get(today).getTempMin(weatherId) + ".."
+					+ weather.get(today).getTempMax(weatherId) + "°");
+	
+			todayWeather.appendChild(imageView);
+			todayWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(todayWeather);
+		}
+		if (weather.containsKey(tomorrow)) {
+			DivView tomorrowWeather = new DivView("tomorrow day");
+	
+			ImgView imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
+					+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
+					+ weather.get(tomorrow).getTempMax(weatherId) + "°");
+	
+			tomorrowWeather.appendChild(imageView);
+			tomorrowWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(tomorrowWeather);
+		}
 
 		this.appendChild(weatherDiv);
 
