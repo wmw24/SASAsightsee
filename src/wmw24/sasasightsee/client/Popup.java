@@ -54,29 +54,33 @@ public class Popup extends DivView
 
 		DivView weatherDiv = new DivView("weather");
 
-		DivView todayWeather = new DivView("today day");
-
-		ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
-		SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
-				+ " - " + weather.get(today).getTempMin(weatherId) + ".."
-				+ weather.get(today).getTempMax(weatherId) + "°");
-
-		todayWeather.appendChild(imageView);
-		todayWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(todayWeather);
-
-		DivView tomorrowWeather = new DivView("tomorrow day");
-
-		imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
-		spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
-				+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
-				+ weather.get(tomorrow).getTempMax(weatherId) + "°");
-
-		tomorrowWeather.appendChild(imageView);
-		tomorrowWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(tomorrowWeather);
+		// only display weather if it is available
+		if (weather.containsKey(today)) {
+			DivView todayWeather = new DivView("today day");
+	
+			ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
+					+ " - " + weather.get(today).getTempMin(weatherId) + ".."
+					+ weather.get(today).getTempMax(weatherId) + "°");
+	
+			todayWeather.appendChild(imageView);
+			todayWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(todayWeather);
+		}
+		if (weather.containsKey(tomorrow)) {
+			DivView tomorrowWeather = new DivView("tomorrow day");
+	
+			ImgView imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
+					+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
+					+ weather.get(tomorrow).getTempMax(weatherId) + "°");
+	
+			tomorrowWeather.appendChild(imageView);
+			tomorrowWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(tomorrowWeather);
+		}
 
 		this.appendChild(weatherDiv);
 
