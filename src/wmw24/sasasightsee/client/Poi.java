@@ -17,7 +17,7 @@ public class Poi
 
 	public double getLat()
 	{
-		return lat;
+		return this.lat;
 	}
 
 	public void setLat(double lat)
@@ -27,7 +27,7 @@ public class Poi
 
 	public double getLon()
 	{
-		return lon;
+		return this.lon;
 	}
 
 	public void setLon(double lon)
@@ -37,7 +37,7 @@ public class Poi
 
 	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name)
@@ -47,7 +47,7 @@ public class Poi
 
 	public String getAttr(String key)
 	{
-		return attr.get(key);
+		return this.attr.get(key);
 	}
 
 	public void setAttr(String key, String value)
@@ -57,12 +57,17 @@ public class Poi
 
 	public String getAmenity()
 	{
-		return amenity;
+		return this.amenity;
 	}
 
 	public void setAmenity(String amenity)
 	{
 		this.amenity = amenity;
+	}
+
+	public Map<String, String> getAttrs()
+	{
+	   return this.attr;
 	}
 
 }
