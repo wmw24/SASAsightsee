@@ -28,43 +28,54 @@ public class Popup extends DivView
 		this.setStyleName("popup");
 		SpanView title = new SpanView(poi.getName());
 		title.setStyleName("title");
-        this.appendChild(title);
+		this.appendChild(title);
 		this.iconOptions = iconOption;
 
 		ButtonView more = new ButtonView("details");
 		this.appendChild(more);
-		more.addClickHandler(new DMClickHandler() {
-         @Override
-         public void onClick(DMClickEvent event)
-         {
-            Window.scrollTo(0, 0);
-            Element body = Document.get().getElementsByTagName("body").getItem(0);
-            DetailOverlay detailOverlay = new DetailOverlay(poi, busStations, weather);
-            com.google.gwt.user.client.Element element = detailOverlay.getElement();
-            body.appendChild(element);
-            AbstractHtmlElementView.notifyAttachRecursive(detailOverlay);
+		more.addClickHandler(new DMClickHandler()
+		{
+			@Override
+			public void onClick(DMClickEvent event)
+			{
+				Window.scrollTo(0, 0);
+				Element body = Document.get().getElementsByTagName("body")
+						.getItem(0);
+				DetailOverlay detailOverlay = new DetailOverlay(poi,
+						busStations, weather);
+				com.google.gwt.user.client.Element element = detailOverlay
+						.getElement();
+				body.appendChild(element);
+				AbstractHtmlElementView.notifyAttachRecursive(detailOverlay);
 
+				Element head = Document.get().getElementsByTagName("head").getItem(0);
+				Element script = Document.get().createElement("script");
+				script.setAttribute("src", "http://platform.twitter.com/widgets.js");
+				head.appendChild(script);
 
-            detailOverlay.dateBox.getDateBox().getGwtDateBox()
-            	.addValueChangeHandler(new ValueChangeHandler<Date>() {
-	                  @Override
-	                  public void onValueChange(ValueChangeEvent<Date> event)
-	                  {
-	                	  SASAsightsee.currDate = event.getValue();
-	                  }
-	        });
-        }
-       });
+				detailOverlay.dateBox.getDateBox().getGwtDateBox()
+						.addValueChangeHandler(new ValueChangeHandler<Date>()
+						{
+							@Override
+							public void onValueChange(
+									ValueChangeEvent<Date> event)
+							{
+								Window.alert("New date " + event.getValue());
+							}
+						});
+			}
+		});
 	}
 
-//	static String formatTime(String time)
-//	{
-//		if (time.startsWith("00d"))
-//		{
-//			time = time.substring(3);
-//		}
-//		String[] timeParts = time.split(":");
-//		time = timeParts[0] + ":" + timeParts[1];
-//		return time;
-//	}
+
+	// static String formatTime(String time)
+	// {
+	// if (time.startsWith("00d"))
+	// {
+	// time = time.substring(3);
+	// }
+	// String[] timeParts = time.split(":");
+	// time = timeParts[0] + ":" + timeParts[1];
+	// return time;
+	// }
 }

@@ -73,6 +73,19 @@ public class DetailOverlay extends DivView
 		background.addClickHandler(closeHandler);
 
 		// Content!
+		this.detail.appendChild(new SpanView(poi.getName(), "title"));
+
+		DivView tags = new DivView("tags");
+		this.detail.appendChild(tags);
+		for (String k: poi.getAttrs().keySet())
+		{
+		   String value = poi.getAttr(k);
+		   if (value != null && value.length() > 0)
+		   {
+		      tags.appendChild(new SpanView(k + ": " + value));
+		   }
+		}
+
 		String today = DateTimeFormat.getFormat("yyyy-MM-dd")
 				.format(SASAsightsee.currDate);
 		Date date = CalendarUtil.copyDate(SASAsightsee.currDate);
@@ -122,9 +135,8 @@ public class DetailOverlay extends DivView
 
 		this.detail.appendChild(weatherDiv);
 
-      this.dateBox = new SASAbusDateBox();
-      this.detail.appendChild(this.dateBox);
-
+		this.dateBox = new SASAbusDateBox();
+		this.detail.appendChild(this.dateBox);
 
 		this.buttonView = new ButtonView("With bus here");
 		this.detail.appendChild(this.buttonView);
@@ -143,12 +155,12 @@ public class DetailOverlay extends DivView
 
 		this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 
-		HTML html = new HTML(
-				"<a class=\"twitter-timeline\"  href=\"https://twitter.com/search?q=%23angelhackrules\"  data-widget-id=\"465401704247074816\">Tweets über \"#angelhackrules\"</a><script>twitterfunction()</script>");
-		this.detail.getElement().appendChild(html.getElement());
-
 		if (poi.getAttr("wikipedia") != null)
 		{
+			HTML html = new HTML(
+					"<a class=\"twitter-timeline\"  href=\"https://twitter.com/search?q=%23angelhackrules\"  data-widget-id=\"465401704247074816\">Tweets über \"#angelhackrules\"</a>");
+			this.detail.getElement().appendChild(html.getElement());
+
 			this.wikireq = new WikipediaTextRequest(poi.getAttr("wikipedia"),
 					this);
 		}
