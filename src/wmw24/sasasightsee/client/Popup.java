@@ -4,7 +4,6 @@ import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -138,11 +137,12 @@ public class Popup extends DivView
 
 					try
 					{
-						SimpleDateFormat format = new SimpleDateFormat(
-								"yyyyMMddhhmm");
-						SASAbusDBClientImpl.singleton.calcRoute(nearestToYou
-								.getId(), Popup.this.nearestToPoi.getId(), Long
-								.parseLong(format.format(Popup.this.currDate)),
+						SASAbusDBClientImpl.singleton.calcRoute(
+								nearestToYou.getId(),
+								Popup.this.nearestToPoi.getId(),
+								Long.parseLong(DateTimeFormat.getFormat(
+										"yyyyMMddhhmm").format(
+										Popup.this.currDate)),
 								new SASAbusDBDataReady<ConRes>()
 								{
 
