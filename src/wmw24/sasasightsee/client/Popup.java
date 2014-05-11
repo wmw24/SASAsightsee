@@ -12,6 +12,8 @@ import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.SpanView;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 
 public class Popup extends DivView
@@ -42,6 +44,16 @@ public class Popup extends DivView
             com.google.gwt.user.client.Element element = detailOverlay.getElement();
             body.appendChild(element);
             AbstractHtmlElementView.notifyAttachRecursive(detailOverlay);
+
+
+            detailOverlay.dateBox.getDateBox().getGwtDateBox().addValueChangeHandler(new ValueChangeHandler<Date>()
+                                                                       {
+                                                                          @Override
+                                                                          public void onValueChange(ValueChangeEvent<Date> event)
+                                                                          {
+                                                                             Window.alert("New date " + event.getValue());
+                                                                          }
+                                                                       });
          }
       });
 
