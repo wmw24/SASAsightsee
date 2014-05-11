@@ -77,7 +77,7 @@ public class DetailOverlay extends DivView
 
 		// Content!
 		String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(currDate);
-		Date date = (Date) currDate.clone();
+		Date date = CalendarUtil.copyDate(currDate);
 		CalendarUtil.addDaysToDate(date, 1);
 		String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
 		String weatherId = this.nearestWeather(poi.getLat(), poi.getLon());
