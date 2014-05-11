@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class WikipediaTextRequest
 {
 
-	public final String WIKI_URL = "http://de.wikipedia.org/w/api.php?action=parse&prop=text&format=json&section=0&page=";
+	public final String WIKI_URL = "http://de.wikipedia.org/w/api.php?action=parse&prop=text&format=json&page=";
 
 	String site;
 
