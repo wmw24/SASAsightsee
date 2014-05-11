@@ -157,12 +157,12 @@ public class Popup extends DivView
       }
    }
 
-   void displayRoute(ConRes conRes)
+   private void displayRoute(ConRes conRes)
    {
       this.appendChild(new RouteDetail(conRes));
    }
 
-   BusStation nearest(double lat, double lon)
+   private BusStation nearest(double lat, double lon)
    {
       BusStation best = this.busStations.get(0);
       for (int i = 1; i < this.busStations.size(); i++)
