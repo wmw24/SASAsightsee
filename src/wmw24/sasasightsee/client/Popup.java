@@ -186,14 +186,14 @@ public class Popup extends DivView
       return best;
    }
 
-   static String formatTime(String time)
-   {
-      if (time.startsWith("00d"))
-      {
-         time = time.substring(3);
-      }
-      String[] timeParts = time.split(":");
-      time = timeParts[0] + ":" + timeParts[1];
-      return time;
-   }
+//   static String formatTime(String time)
+//   {
+//      if (time.startsWith("00d"))
+//      {
+//         time = time.substring(3);
+//      }
+//      String[] timeParts = time.split(":");
+//      time = timeParts[0] + ":" + timeParts[1];
+//      return time;
+//   }
 }
