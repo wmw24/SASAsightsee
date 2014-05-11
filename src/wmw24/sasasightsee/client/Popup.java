@@ -37,6 +37,8 @@ public class Popup extends DivView
 
 	Date currDate;
 
+	WikipediaTextRequest wikireq;
+
 	public Popup(Poi poi, ArrayList<BusStation> busStations,
 			Map<String, Weather> weather, Date currDate, IconOptions iconOption)
 	{
@@ -104,6 +106,17 @@ public class Popup extends DivView
 
 		this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 
+		if (poi.getAttr("wikipedia") != null)
+		{
+			wikireq = new WikipediaTextRequest(poi.getAttr("wikipedia"), this);
+		}
+
+	}
+
+	public void wikipediaReady()
+	{
+		SpanView wikispan = new SpanView(wikireq.wikitext);
+		this.appendChild(wikispan);
 	}
 
 	private void onButtonClick()

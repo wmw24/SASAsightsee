@@ -14,9 +14,12 @@ public class WikipediaTextRequest
 
 	String wikititle;
 
-	public WikipediaTextRequest(String site)
+	Popup callback;
+
+	public WikipediaTextRequest(String site, Popup callback)
 	{
 		this.site = site;
+		this.callback = callback;
 
 		String url = WIKI_URL + site;
 
@@ -40,6 +43,7 @@ public class WikipediaTextRequest
 				return;
 			}
 		});
+		callback.wikipediaReady();
 	}
 
 	public String getWikitext()
