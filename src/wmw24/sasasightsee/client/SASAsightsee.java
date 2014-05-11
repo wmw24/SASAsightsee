@@ -29,6 +29,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.Random;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.XMLParser;
 import com.mouchel.gwt.xpath.client.XPath;
@@ -226,10 +227,12 @@ public class SASAsightsee implements EntryPoint
 						.parse(response.getText());
 
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
-				String currDateStr = XPath.evaluate(xmldoc, "//date/text()")
-						.toString().substring(1).split("T")[0];
-				Date currDate = DateTimeFormat.getFormat("yyyy-MM-dd").parse(
-						currDateStr);
+// FOR TESTING: use date from weather service
+//				String currDateStr = XPath.evaluate(xmldoc, "//date/text()")
+//						.toString().substring(1).split("T")[0];
+//				Date currDate = DateTimeFormat.getFormat("yyyy-MM-dd").parse(
+//						currDateStr);
+				Date currDate = new Date();
 
 				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
 				fetchWeatherTodayTomorrow(xmldoc, "tomorrow", weatherMap);

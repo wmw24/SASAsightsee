@@ -70,40 +70,35 @@ public class Popup extends DivView
 		String tomorrow = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
 		String weatherId = this.nearestWeather(poi.getLat(), poi.getLon());
 
-		ImgView imageView = new ImgView(weather.get(today).getImageURL(
-				weatherId));
-		SpanView spanView = new SpanView(weather.get(today).getDescription(
-				weatherId)
-				+ " - "
-				+ weather.get(today).getTempMin(weatherId)
-				+ "-"
-				+ weather.get(today).getTempMax(weatherId) + "°");
-
 		DivView weatherDiv = new DivView("weather");
 
-		DivView todayWeather = new DivView("today day");
-
-		imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
-		spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
-				+ " - " + weather.get(tomorrow).getTempMin(weatherId) + "-"
-				+ weather.get(tomorrow).getTempMax(weatherId) + "°");
-
-		todayWeather.appendChild(imageView);
-		todayWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(todayWeather);
-
-		DivView tomorrowWeather = new DivView("tomorrow day");
-
-		imageView = new ImgView(weather.get(tomorrow).getImageURL("2"));
-		spanView = new SpanView(weather.get(tomorrow).getDescription("2")
-				+ " - " + weather.get(tomorrow).getTempMin("2") + "-"
-				+ weather.get(tomorrow).getTempMax("2") + "°");
-
-		tomorrowWeather.appendChild(imageView);
-		tomorrowWeather.appendChild(spanView);
-
-		weatherDiv.appendChild(tomorrowWeather);
+		// only display weather if it is available
+		if (weather.containsKey(today)) {
+			DivView todayWeather = new DivView("today day");
+	
+			ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
+					+ " - " + weather.get(today).getTempMin(weatherId) + ".."
+					+ weather.get(today).getTempMax(weatherId) + "°");
+	
+			todayWeather.appendChild(imageView);
+			todayWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(todayWeather);
+		}
+		if (weather.containsKey(tomorrow)) {
+			DivView tomorrowWeather = new DivView("tomorrow day");
+	
+			ImgView imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
+			SpanView spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
+					+ " - " + weather.get(tomorrow).getTempMin(weatherId) + ".."
+					+ weather.get(tomorrow).getTempMax(weatherId) + "°");
+	
+			tomorrowWeather.appendChild(imageView);
+			tomorrowWeather.appendChild(spanView);
+	
+			weatherDiv.appendChild(tomorrowWeather);
+		}
 
 		this.appendChild(weatherDiv);
 
@@ -161,7 +156,6 @@ public class Popup extends DivView
 
 					double lon = result.getCoordinates().getLongitude();
 					double lat = result.getCoordinates().getLatitude();
-					double accuracy = result.getCoordinates().getAccuracy();
 
 					BusStation nearestToYou = Popup.this.nearest(lat, lon);
 					Popup.this.appendChild(new SpanView("Nearest busStation: "
