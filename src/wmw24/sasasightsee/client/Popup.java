@@ -21,6 +21,7 @@ import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 
 public class Popup extends DivView
@@ -114,8 +115,8 @@ public class Popup extends DivView
 	{
 		String wikitext = this.wikireq.getWikitext();
 		DivView wikidiv = new DivView("wikitext");
-		SpanView wikispan = new SpanView(wikitext);
-		wikidiv.appendChild(wikispan);
+		HTML html = new HTML(wikitext);
+		wikidiv.getElement().appendChild(html.getElement());
 		this.appendChild(wikidiv);
 	}
 
