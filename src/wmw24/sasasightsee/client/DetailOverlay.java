@@ -96,7 +96,7 @@ public class DetailOverlay extends DivView
 					+ ", "
 					+ weather.get(today).getTempMin(weatherId)
 					+ ".."
-					+ weather.get(today).getTempMax(weatherId) + "grad");
+					+ weather.get(today).getTempMax(weatherId) + "&deg;");
 
 			todayWeather.appendChild(imageView);
 			todayWeather.appendChild(spanView);
@@ -114,7 +114,7 @@ public class DetailOverlay extends DivView
 					+ ", "
 					+ weather.get(tomorrow).getTempMin(weatherId)
 					+ ".."
-					+ weather.get(tomorrow).getTempMax(weatherId) + "grad");
+					+ weather.get(tomorrow).getTempMax(weatherId) + "&deg;");
 
 			tomorrowWeather.appendChild(imageView);
 			tomorrowWeather.appendChild(spanView);
@@ -268,7 +268,7 @@ public class DetailOverlay extends DivView
 	{
 		String wikitext = this.wikireq.getWikitext();
 		DivView wikidiv = new DivView("wikitext");
-		HTML html = new HTML(wikitext.substring(0, 689));
+		HTML html = new HTML(wikitext);
 		wikidiv.getElement().appendChild(html.getElement());
 		this.detail.appendChild(wikidiv);
 	}
