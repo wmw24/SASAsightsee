@@ -38,8 +38,8 @@ public class SASAsightsee implements EntryPoint
 	public static final String[] OSM_URL = {
 			"node[amenity~\"restaurant|hospital\"](46.46,11.28,46.51,11.37)[name];out;",
 			"node[amenity~\"restaurant|hospital\"](46.65,11.13,46.68,11.18)[name];out;",
-			"node[tourism~\"artwork|museum\"](46.65,11.13,46.68,11.18)[name];out;",
-			"node[tourism~\"artwork|museum\"](46.46,11.28,46.51,11.37)[name];out;" };
+			"node[tourism~\"artwork|museum|attraction\"](46.65,11.13,46.68,11.18)[name];out;",
+			"node[tourism~\"artwork|museum|attraction\"](46.46,11.28,46.51,11.37)[name];out;" };
 
 	/*
 	 * public static final String[] OSM_URL = {
@@ -53,10 +53,12 @@ public class SASAsightsee implements EntryPoint
 	 * };
 	 */
 	public static int counter = 0;
-		
-	// Bz position (from http://tools.wmflabs.org/geohack/geohack.php) - for weather
+
+	// Bz position (from http://tools.wmflabs.org/geohack/geohack.php) - for
+	// weather
 	public static final double BZ_LAT = 46.497978, BZ_LON = 11.354783;
-	// Me position (from http://tools.wmflabs.org/geohack/geohack.php) - for weather
+	// Me position (from http://tools.wmflabs.org/geohack/geohack.php) - for
+	// weather
 	public static final double ME_LAT = 46.666667, ME_LON = 11.166667;
 
 	@Override
@@ -89,38 +91,89 @@ public class SASAsightsee implements EntryPoint
 				"weather.xml");
 		builder.sendRequest("", new RequestCallback()
 		{
-			private void fetchWeatherTodayTomorrow(com.google.gwt.xml.client.Document xmldoc,
-					String node, java.util.Map<String, Weather> weatherMap)
+			private void fetchWeatherTodayTomorrow(
+					com.google.gwt.xml.client.Document xmldoc, String node,
+					java.util.Map<String, Weather> weatherMap)
 			{
 				// fetch weather for Me
-				String wDescription = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/symbol/description/text()").toString();
-				String wImageURL = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/symbol/imageURL/text()").toString();
-				String wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/max/text()").toString();
-				String wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=2]/temperature/min/text()").toString();
+				String wDescription = XPath
+						.evaluate(
+								xmldoc,
+								"//"
+										+ node
+										+ "/stationData[Id=2]/symbol/description/text()")
+						.toString();
+				String wImageURL = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=2]/symbol/imageURL/text()")
+						.toString();
+				String wTempMax = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=2]/temperature/max/text()")
+						.toString();
+				String wTempMin = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=2]/temperature/min/text()")
+						.toString();
 				Weather weather = new Weather();
 				weather.setDescription("2", wDescription);
 				weather.setImageURL("2", wImageURL);
-				weather.setTempMax("2", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 2)));
-				weather.setTempMin("2", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 2)));
+				weather.setTempMax(
+						"2",
+						Integer.parseInt(wTempMax.substring(1,
+								wTempMax.length() - 2)));
+				weather.setTempMin(
+						"2",
+						Integer.parseInt(wTempMin.substring(1,
+								wTempMin.length() - 2)));
 				// fetch weather for Bz
-				wDescription = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/description/text()").toString();
-				wImageURL = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/symbol/imageURL/text()").toString();
-				wTempMax = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/max/text()").toString();
-				wTempMin = XPath.evaluate(xmldoc, "//" + node + "/stationData[Id=3]/temperature/min/text()").toString();
+				wDescription = XPath
+						.evaluate(
+								xmldoc,
+								"//"
+										+ node
+										+ "/stationData[Id=3]/symbol/description/text()")
+						.toString();
+				wImageURL = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=3]/symbol/imageURL/text()")
+						.toString();
+				wTempMax = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=3]/temperature/max/text()")
+						.toString();
+				wTempMin = XPath.evaluate(
+						xmldoc,
+						"//" + node
+								+ "/stationData[Id=3]/temperature/min/text()")
+						.toString();
 				weather.setDescription("3", wDescription);
 				weather.setImageURL("3", wImageURL);
-				weather.setTempMax("3", Integer.parseInt(wTempMax.substring(1, wTempMax.length() - 2)));
-				weather.setTempMin("3", Integer.parseInt(wTempMin.substring(1, wTempMin.length() - 2)));
-				String wDate = XPath.evaluate(xmldoc, "//" + node + "/date/text()").toString().split("T")[0];
-				weatherMap.put(wDate, weather);				
+				weather.setTempMax(
+						"3",
+						Integer.parseInt(wTempMax.substring(1,
+								wTempMax.length() - 2)));
+				weather.setTempMin(
+						"3",
+						Integer.parseInt(wTempMin.substring(1,
+								wTempMin.length() - 2)));
+				String wDate = XPath
+						.evaluate(xmldoc, "//" + node + "/date/text()")
+						.toString().split("T")[0];
+				weatherMap.put(wDate, weather);
 			}
-			
+
 			@Override
 			public void onResponseReceived(Request request, Response response)
 			{
 				com.google.gwt.xml.client.Document xmldoc = XMLParser
 						.parse(response.getText());
-				
+
 				java.util.Map<String, Weather> weatherMap = new HashMap<String, Weather>();
 
 				fetchWeatherTodayTomorrow(xmldoc, "today", weatherMap);
@@ -276,7 +329,7 @@ public class SASAsightsee implements EntryPoint
 			iconOptions.setIconSize(32, 37);
 			iconOptions.setIconAnchor(16, 37);
 			iconOptions.setPopupAnchor(0, -33);
-			int randomInt = Random.nextInt(4);
+			int randomInt = Random.nextInt(10);
 			if (randomInt == 0)
 			{
 				iconOptions
@@ -284,7 +337,8 @@ public class SASAsightsee implements EntryPoint
 			}
 			else
 			{
-				iconOptions.setIconUrl("images/historical_museum.png");
+				iconOptions
+						.setIconUrl("images/" + object.getAmenity() + ".png");
 			}
 			Icon icon = new Icon(iconOptions);
 			MarkerOptions markerOptions = new MarkerOptions();
