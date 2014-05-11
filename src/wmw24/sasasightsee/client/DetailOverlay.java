@@ -3,11 +3,9 @@ package wmw24.sasasightsee.client;
 import it.bz.tis.sasabus.backend.shared.SASAbusDBDataReady;
 import it.bz.tis.sasabus.backend.shared.travelplanner.ConRes;
 import it.bz.tis.sasabus.html5.client.SASAbusDBClientImpl;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
-
 import bz.davide.dmweb.client.leaflet.DistanceCalculator;
 import bz.davide.dmweb.shared.view.AbstractHtmlElementView;
 import bz.davide.dmweb.shared.view.ButtonView;
@@ -16,14 +14,13 @@ import bz.davide.dmweb.shared.view.DMClickHandler;
 import bz.davide.dmweb.shared.view.DivView;
 import bz.davide.dmweb.shared.view.ImgView;
 import bz.davide.dmweb.shared.view.SpanView;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.geolocation.client.Geolocation;
+import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
 import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
-import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
@@ -32,7 +29,7 @@ import com.google.gwt.user.datepicker.client.CalendarUtil;
 public class DetailOverlay extends DivView
 {
 	ButtonView buttonView;
-	
+
 	ArrayList<BusStation> busStations;
 
 	BusStation nearestToPoi;
@@ -43,6 +40,8 @@ public class DetailOverlay extends DivView
 
 	private DivView detail;
 
+	DivView routingresults;
+
    public DetailOverlay(Poi poi, ArrayList<BusStation> busStations,
 		   Map<String, Weather> weather, Date currDate)
    {
@@ -51,11 +50,11 @@ public class DetailOverlay extends DivView
 
 	  DivView background = new DivView("detailbackground");
       this.appendChild(background);
-      detail = new DivView("detail");
-      this.appendChild(detail);
+      this.detail = new DivView("detail");
+      this.appendChild(this.detail);
       ButtonView close = new ButtonView("X");
       close.setStyleName("detailclose");
-      detail.appendChild(close);
+      this.detail.appendChild(close);
       DMClickHandler closeHandler = new DMClickHandler()
       {
          @Override
@@ -82,35 +81,35 @@ public class DetailOverlay extends DivView
 		// only display weather if it is available
 		if (weather.containsKey(today)) {
 			DivView todayWeather = new DivView("today day");
-	
+
 			ImgView imageView = new ImgView(weather.get(today).getImageURL(weatherId));
 			SpanView spanView = new SpanView(weather.get(today).getDescription(weatherId)
 					+ ", " + weather.get(today).getTempMin(weatherId) + ".."
 					+ weather.get(today).getTempMax(weatherId) + "°");
-	
+
 			todayWeather.appendChild(imageView);
 			todayWeather.appendChild(spanView);
-	
+
 			weatherDiv.appendChild(todayWeather);
 		}
 		if (weather.containsKey(tomorrow)) {
 			DivView tomorrowWeather = new DivView("tomorrow day");
-	
+
 			ImgView imageView = new ImgView(weather.get(tomorrow).getImageURL(weatherId));
 			SpanView spanView = new SpanView(weather.get(tomorrow).getDescription(weatherId)
 					+ ", " + weather.get(tomorrow).getTempMin(weatherId) + ".."
 					+ weather.get(tomorrow).getTempMax(weatherId) + "°");
-	
+
 			tomorrowWeather.appendChild(imageView);
 			tomorrowWeather.appendChild(spanView);
-	
+
 			weatherDiv.appendChild(tomorrowWeather);
 		}
 
-		detail.appendChild(weatherDiv);
+		this.detail.appendChild(weatherDiv);
 
 		this.buttonView = new ButtonView("With bus here");
-		detail.appendChild(this.buttonView);
+		this.detail.appendChild(this.buttonView);
 		this.buttonView.addClickHandler(new DMClickHandler()
 		{
 
@@ -121,6 +120,8 @@ public class DetailOverlay extends DivView
 			}
 
 		});
+		this.routingresults = new DivView("routingresults");
+		this.detail.appendChild(this.routingresults);
 
 		this.nearestToPoi = this.nearest(poi.getLat(), poi.getLon());
 
@@ -132,7 +133,7 @@ public class DetailOverlay extends DivView
 
 	private void onButtonClick()
 	{
-		detail.appendChild(new SpanView("Nearest busStation: "
+		this.routingresults.appendChild(new SpanView("Nearest busStation: "
 				+ this.nearestToPoi.getName()));
 
 		this.buttonView.setLabel("Searching your position ...");
@@ -155,7 +156,7 @@ public class DetailOverlay extends DivView
 					double lat = result.getCoordinates().getLatitude();
 
 					BusStation nearestToYou = DetailOverlay.this.nearest(lat, lon);
-					DetailOverlay.this.detail.appendChild(new SpanView("Nearest busStation: "
+					DetailOverlay.this.routingresults.appendChild(new SpanView("Nearest busStation: "
 							+ nearestToYou.getName()));
 
 					try
@@ -244,7 +245,7 @@ public class DetailOverlay extends DivView
 				SASAsightsee.ME_LAT, SASAsightsee.ME_LON, lat, lon);
 		return distance2 < distance1 ? "2" : "3";
 	}
-	
+
 	public void wikipediaReady()
 	{
 		String wikitext = this.wikireq.getWikitext();
@@ -256,6 +257,6 @@ public class DetailOverlay extends DivView
 
 	private void displayRoute(ConRes conRes)
 	{
-		this.detail.appendChild(new RouteDetail(conRes));
+		this.routingresults.appendChild(new RouteDetail(conRes));
 	}
 }
